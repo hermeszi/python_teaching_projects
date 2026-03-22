@@ -1,0 +1,240 @@
+Great — I’ll turn this into a clean Wix website structure that Elysia can follow section-by-section. This is designed to look polished, clear, and impressive for EAE assessors.
+
+I’ll also include what to put + how to layout visually.
+
+🌐 FULL WIX PORTFOLIO STRUCTURE
+🏠 1. HOME PAGE (Landing Page)
+🔹 Section 1: Header (Top Banner)
+
+Title:
+
+Elysia Tham
+Aspiring Business Analytics Student
+
+Subtitle:
+
+I enjoy solving problems step by step using coding and data.
+
+Button:
+
+View My Projects
+
+🔹 Section 2: Short Intro
+
+Text:
+I am a student who enjoys logical thinking and solving problems like Sudoku. I prefer working at a steady pace to fully understand concepts.
+
+Through coding, I discovered my interest in analysing data and finding patterns. I am especially interested in business analytics because it combines problem-solving with real-world applications.
+
+🔹 Section 3: Highlights (3 Boxes)
+
+Box 1:
+🐍 Snake Game
+Built an interactive game using Python
+
+Box 2:
+🚢 Titanic Data Project
+Analysed real-world data using Python
+
+Box 3:
+📊 Machine Learning
+Built my first prediction model
+
+👩‍💻 2. ABOUT ME PAGE
+🔹 Section 1: About Me
+
+I am a student who enjoys solving logical problems like Sudoku. I like working steadily because it helps me understand things better.
+
+I started learning coding out of curiosity, and over time I realised I enjoy building things and analysing problems. I prefer breaking problems into smaller steps and solving them one by one.
+
+🔹 Section 2: My Strengths
+I am patient and consistent
+I like solving problems step by step
+I focus on understanding, not memorising
+🔹 Section 3: My Interests
+Data analysis
+Problem solving
+Finding patterns
+Business decision making
+📈 3. LEARNING JOURNEY PAGE
+🔹 Section Title:
+
+My Learning Journey
+
+🔹 Section Content (Timeline Style)
+
+Step 1 — Getting Started
+I learned basic Python concepts like loops, variables, and conditions. At first, I found it confusing, but I improved by practising regularly.
+
+Step 2 — Building Games
+I created my Snake game and learned how to control movement and build logic step by step.
+
+Step 3 — Exploring Data
+I worked on the Titanic dataset and started analysing real data instead of just building games.
+
+Step 4 — Machine Learning
+I built my first model to predict survival and learned how machines find patterns in data.
+
+🕒 4. TIMELINE PAGE (Visual Timeline)
+
+👉 Use Wix timeline element
+
+2023
+Started Python basics (loops, conditions)
+
+2024
+Built Snake game
+Learned game logic and movement
+
+2025
+Improved Snake game (collisions, restart)
+
+2025
+Started data analysis (Titanic project)
+
+2025
+Built first machine learning model
+
+💼 5. PROJECTS PAGE (IMPORTANT PAGE)
+
+Create 2 main project sections
+
+🐍 PROJECT 1 — SNAKE GAME
+🔹 Title:
+
+Snake Game (Python Tkinter)
+
+🔹 Section Layout:
+
+1. Problem
+I wanted to create a simple game where the player controls a snake and tries to grow it by eating food.
+
+2. My Approach
+I used Python and Tkinter to build the game. I created a grid system and used a list to store the snake’s body.
+
+3. Features
+
+Arrow key controls
+Snake grows when eating food
+Random food generation
+Wall collision
+Self-collision
+Restart button
+
+4. Challenges
+I struggled to understand how the snake moves using a list. I also had bugs where the game didn’t stop properly.
+
+5. Solution
+I broke the problem into smaller parts and tested each part before adding more features.
+
+6. What I Learned
+
+Game loops
+Using lists to track movement
+Debugging step by step
+🚢 PROJECT 2 — TITANIC DATA ANALYSIS
+🔹 Title:
+
+Titanic Data Analysis & Machine Learning
+
+🔹 Section Layout:
+
+1. Problem
+I wanted to find out what factors affected survival on the Titanic.
+
+2. My Approach
+I used Python (pandas, seaborn) to explore and analyse the dataset.
+
+3. What I Did
+
+Explored data using tables and charts
+Compared survival by gender and class
+Created visualisations
+
+4. Data Cleaning
+I handled missing values by filling in age using median.
+
+5. Feature Engineering
+I created new features like:
+
+FamilySize
+IsChild
+IsAlone
+
+6. Machine Learning
+I trained a decision tree model to predict survival.
+
+7. Key Findings
+
+Gender affected survival
+Higher class passengers survived more
+Children had higher survival rates
+
+8. Challenges
+Understanding how to clean data and choose useful features.
+
+9. What I Learned
+
+Data is not always clean
+Decisions affect results
+AI learns patterns, not truth
+🏆 6. TESTIMONIALS PAGE
+🔹 Title:
+
+Testimonial
+
+🔹 Content:
+
+Elysia is a consistent and focused student who approaches problems with patience and logical thinking. She works steadily and ensures she understands concepts clearly.
+
+She has demonstrated strong progress in Python through both game development and data analysis projects. Her ability to break down problems and debug step by step shows strong potential in data-related fields.
+
+👉 (Optional: upload PDF testimonial if available)
+
+🎯 7. EAE SECTION (VERY IMPORTANT)
+🔹 Title:
+
+Why I Am Applying for Business Analytics
+
+🔹 Content:
+
+I am applying for Business Analytics because I enjoy working with data and finding patterns.
+
+Through my projects, I learned that data can be used to answer real questions instead of guessing. For example, in the Titanic project, I explored what factors affected survival.
+
+I like that business analytics combines problem-solving, data, and real-world applications.
+
+I also prefer working step by step and analysing problems carefully, which fits well with this course.
+
+In the future, I hope to use data to help businesses make better decisions.
+
+🧩 8. EXTRA PAGE (Optional but STRONG)
+🔹 Title:
+
+Reflection & Growth
+
+🔹 Content:
+
+When I first started coding, I focused on getting the code to work. Now, I focus more on understanding why it works.
+
+I also learned that mistakes are part of learning. Debugging helped me improve my thinking and patience.
+
+In the future, I want to improve my skills in data analysis and build more real-world projects.
+
+🎨 DESIGN TIPS (VERY IMPORTANT)
+
+Use this style:
+
+Clean (white background)
+2–3 colours max (blue/black/grey)
+Icons for projects
+Screenshots of:
+Snake game
+Titanic charts
+🚀 FINAL BOOST (what will impress EAE)
+
+Add these:
+
+GitHub link (if possible)
+Short demo video (VERY powerful)
+Screenshots with captions
