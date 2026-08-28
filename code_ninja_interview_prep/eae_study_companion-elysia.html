@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia's EAE Interview Study Companion</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-100">
+                    <i data-lucide="terminal" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl tracking-tight text-slate-900">Elysia Tham</h1>
+                    <p class="text-xs font-semibold text-indigo-600 tracking-wide uppercase">Polytechnic EAE Prep Companion</p>
+                </div>
+            </div>
+            
+            <!-- Global Interactive Controls -->
+            <div class="flex items-center gap-2">
+                <button id="toggle-pov-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 transition-colors">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span>Practice Mode: <strong id="pov-status">First-Person (I)</strong></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-5xl mx-auto w-full px-4 mt-6">
+        <div class="bg-white p-1.5 rounded-xl border border-slate-200 flex gap-1 shadow-sm">
+            <button onclick="switchTab('pitch')" id="tab-pitch" class="flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white">
+                <i data-lucide="megaphone" class="w-4 h-4"></i>
+                <span class="hidden md:inline">Elevator</span> Pitch
+            </button>
+            <button onclick="switchTab('frameworks')" id="tab-frameworks" class="flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-50">
+                <i data-lucide="git-branch" class="w-4 h-4"></i>
+                STAR &amp; OSCAR
+            </button>
+            <button onclick="switchTab('simulator')" id="tab-simulator" class="flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-50">
+                <i data-lucide="message-square-code" class="w-4 h-4"></i>
+                Interview Sim
+            </button>
+            <button onclick="switchTab('checklist')" id="tab-checklist" class="flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-50">
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+                Track Progress
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Containers -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-6">
+        
+        <!-- PITCH TAB -->
+        <section id="content-pitch" class="space-y-6">
+            <!-- Intro Card -->
+            <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full filter blur-3xl opacity-10"></div>
+                <span class="bg-indigo-500/30 text-indigo-300 border border-indigo-500/20 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase">Tell Me About Yourself</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 tracking-tight">Your EAE Elevator Pitch</h2>
+                <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-2xl">
+                    This is your 1-minute intro statement. It connects your school life, leadership in the NCC (Sea), love for mathematics, and practical coding projects together.
+                </p>
+                
+                <div class="mt-6 bg-slate-950/40 border border-white/10 p-5 rounded-xl">
+                    <p class="text-slate-100 italic leading-relaxed text-sm sm:text-base" id="pitch-text">
+                        "Hello, I am Elysia. I'm currently a Sec 4 student at Fairfield Methodist Secondary School, and I am aiming to join the Business Analytics course. I have always enjoyed mathematics because I love the satisfaction of figuring out complex problems step-by-step. This logic naturally led me to programming, where I spent the last three years at Code Ninja transitioning from visual scripts to Python algorithms, building custom games and training data models. Outside of coding, I serve as a Platoon Sergeant in the NCC (Sea). This leadership role taught me how to coordinate teams, manage structures under pressure, and remain organized—qualities I hope to apply directly to my business and analytic studies here."
+                    </p>
+                </div>
+                
+                <div class="mt-4 flex flex-wrap gap-4 text-xs text-indigo-200">
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> Math Logic</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> Python Foundation</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> NCC Platoon Leadership</span>
+                </div>
+            </div>
+
+            <!-- Pitch breakdown metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                    <div class="text-indigo-600 mb-2"><i data-lucide="activity" class="w-5 h-5"></i></div>
+                    <h3 class="font-bold text-sm text-slate-800">1. Hook Them with Logic</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Emphasize your systematic, step-by-step math mindset. It sets up your passion for analytics.</p>
+                </div>
+                <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                    <div class="text-indigo-600 mb-2"><i data-lucide="shield" class="w-5 h-5"></i></div>
+                    <h3 class="font-bold text-sm text-slate-800">2. Highlight NCC Sea Leadership</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Being a Platoon Sergeant shows grit, discipline, and practical team coordination.</p>
+                </div>
+                <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                    <div class="text-indigo-600 mb-2"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></div>
+                    <h3 class="font-bold text-sm text-slate-800">3. Anchor to Your Portfolio</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Mentioning Code Ninja sets up a natural transition for the interviewers to look at your projects.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FRAMEWORKS TAB -->
+        <section id="content-frameworks" class="hidden space-y-6">
+            <!-- Project Selector Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Choose Your Project Study Sheet</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Focus on one framework at a time for maximum retention.</p>
+                </div>
+                <div class="flex bg-slate-200 p-1 rounded-lg self-start sm:self-center">
+                    <button onclick="switchProject('snake')" id="proj-btn-snake" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm">Python Snake Game</button>
+                    <button onclick="switchProject('titanic')" id="proj-btn-titanic" class="px-4 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-800">Titanic Data Project</button>
+                </div>
+            </div>
+
+            <!-- Content Area: SNAKE GAME -->
+            <div id="project-snake" class="space-y-6">
+                <!-- STAR Snake -->
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-md">STAR Framework</span>
+                            <h3 class="font-bold text-slate-800">Project Overview</h3>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Best for: behavioral &amp; design questions</span>
+                    </div>
+                    
+                    <div class="divide-y divide-slate-100 text-sm">
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">S</span>
+                                Situation
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="When I moved to Level 4 at Code Ninja, I transitioned from visual blocks to text-based coding in Python. I wanted to build an interactive application that proved I could manage complex, custom loops." data-pov-she="When Elysia reached Level 4 at Code Ninja, she transitioned from visual programming to structured, text-based programming in Python. She aimed to create an interactive application to demonstrate her ability to handle continuous logic loops.">
+                                When I moved to Level 4 at Code Ninja, I transitioned from visual blocks to text-based coding in Python. I wanted to build an interactive application that proved I could manage complex, custom loops.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">T</span>
+                                Task
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="My task was to build a classic Snake game from scratch using Python's Tkinter window library. I had to implement movement, grid management, and collision checks without using external templates." data-pov-she="Her task was to build a complete, bug-free Snake game using Python's Tkinter engine. This required managing coordinate lists, drawing states on a canvas, and establishing boundary constraints.">
+                                My task was to build a classic Snake game from scratch using Python's Tkinter window library. I had to implement movement, grid management, and collision checks without using external templates.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">A</span>
+                                Action
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I stored the snake's body coordinates inside a list of tuples. To keep it from turning backward into itself, I wrote strict conditional structures. When multiple errors popped up from writing code too quickly, I debugged it systematically by placing print statements at key updates and isolation-testing the logic." data-pov-she="She mapped the snake's coordinates using lists. She wrote conditional statements to handle keyboard inputs to prevent the snake from moving backward instantly. To address bugs from quick implementation, she leveraged print statements to isolate coordinate updates.">
+                                I stored the snake's body coordinates inside a list of tuples. To keep it from turning backward into itself, I wrote strict conditional structures. When multiple errors popped up from writing code too quickly, I debugged it systematically by placing print statements at key updates and isolation-testing the logic.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">R</span>
+                                Result
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I built a completely robust game with an automated food score counter, a restart sequence, and game over triggers. This verified my proficiency in clean GUI state management and procedural logic." data-pov-she="The result was a robust arcade simulation showing a scoring loop, random target spawns, a functional menu, and structured state tracking. She has since embedded video content of the game directly on her portfolio.">
+                                I built a completely robust game with an automated food score counter, a restart sequence, and game over triggers. This verified my proficiency in clean GUI state management and procedural logic.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSCAR Snake -->
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-md">OSCAR Framework</span>
+                            <h3 class="font-bold text-slate-800">Problem Solving Process</h3>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Best for: analytical &amp; technical depth</span>
+                    </div>
+                    
+                    <div class="divide-y divide-slate-100 text-sm">
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">O</span>
+                                Outcome
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I aimed to engineer a clean, coordinate-tracked application that shows an industry-standard understanding of list indexes and coordinate systems." data-pov-she="Her objective was to structure a coordinate-tracked interactive GUI demonstrating clean list structures and coordinate mapping.">
+                                I aimed to engineer a clean, coordinate-tracked application that shows an industry-standard understanding of list indexes and coordinate systems.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">S</span>
+                                Situation
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I configured my project files locally using VS Code to compile and test window events and updates." data-pov-she="She developed the project structure locally in VS Code, configuring file hierarchies and handling standard desktop keyboard hooks.">
+                                I configured my project files locally using VS Code to compile and test window events and updates.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">C</span>
+                                Challenge
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="The hardest part was updating coordinates for the growing tail. The game had to append coordinates smoothly in real-time without introducing alignment shifts on the grid." data-pov-she="The principal complexity lay in managing the tail coordinate lists dynamically, ensuring proper element updates with every grid movement without breaking spatial rendering.">
+                                The hardest part was updating coordinates for the growing tail. The game had to append coordinates smoothly in real-time without introducing alignment shifts on the grid.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">A</span>
+                                Action
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I engineered a step check inside my game functions to append new blocks only after checking the front index position. I structured coordinate appending functions to split operations clearly." data-pov-she="She formulated a tail insertion check based on grid offsets, appending lists and verifying positions to prevent visual distortion.">
+                                I engineered a step check inside my game functions to append new blocks only after checking the front index position. I structured coordinate appending functions to split operations clearly.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">R</span>
+                                Result
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="The snake grew accurately on contact. The clean, decoupled layout made my code easy to read and publish to GitHub." data-pov-she="The snake logic executed flawlessly. The project's structure remains published on GitHub, proving clean execution layout to interviewers.">
+                                The snake grew accurately on contact. The clean, decoupled layout made my code easy to read and publish to GitHub.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area: TITANIC DATA -->
+            <div id="project-titanic" class="hidden space-y-6">
+                <!-- STAR Titanic -->
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-md">STAR Framework</span>
+                            <h3 class="font-bold text-slate-800">Project Overview</h3>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Best for: analytics &amp; structured logic</span>
+                    </div>
+                    
+                    <div class="divide-y divide-slate-100 text-sm">
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">S</span>
+                                Situation
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I wanted to apply my programming skills to practical business analytics, so I stepped into data pipelines rather than video game programming." data-pov-she="Looking to bridge code logic with Business Analytics, she transitioned from building interactive games to cleaning and modeling standard industry datasets.">
+                                I wanted to apply my programming skills to practical business analytics, so I stepped into data pipelines rather than video game programming.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">T</span>
+                                Task
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="My task was to inspect the complex Titanic dataset, clean corrupted age entries, engineer custom logical features, and build an automated ML model." data-pov-she="Her task was to analyze the raw passenger listings of the Titanic. This involved identifying missing features, conducting data manipulation, and building a binary classification model.">
+                                My task was to inspect the complex Titanic dataset, clean corrupted age entries, engineer custom logical features, and build an automated ML model.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">A</span>
+                                Action
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I loaded the data using Pandas. Rather than simply deleting rows with missing ages, I filled them intelligently by calculating class-level medians. I engineered critical logic attributes (FamilySize, IsChild, IsAlone) and fit a Decision Tree Classifier using Scikit-Learn." data-pov-she="She imported Pandas for analysis, filling null records with group-level averages instead of discarding rows. She created composite features (FamilySize, IsChild, IsAlone) and engineered a Decision Tree utilizing Scikit-Learn.">
+                                I loaded the data using Pandas. Rather than simply deleting rows with missing ages, I filled them intelligently by calculating class-level medians. I engineered critical logic attributes (FamilySize, IsChild, IsAlone) and fit a Decision Tree Classifier using Scikit-Learn.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs text-slate-600">R</span>
+                                Result
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I engineered a functional prediction pipeline in a clean Google Colab file, proving I can clean messy enterprise datasets and build operational models." data-pov-she="The outcome was an organized analytical workspace inside Google Colab, clearly demonstrating automated feature engineering and model tuning processes for EAE panels.">
+                                I engineered a functional prediction pipeline in a clean Google Colab file, proving I can clean messy enterprise datasets and build operational models.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSCAR Titanic -->
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-md">OSCAR Framework</span>
+                            <h3 class="font-bold text-slate-800">Problem Solving Process</h3>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Best for: AI understanding &amp; analytics depth</span>
+                    </div>
+                    
+                    <div class="divide-y divide-slate-100 text-sm">
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">O</span>
+                                Outcome
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="My goal was to optimize prediction metrics, clean incomplete profiles, and explain exactly how deep trees organize decision criteria." data-pov-she="Her objective was to resolve missing data points, discover high-impact variables, and understand the logic of automated classifiers.">
+                                My goal was to optimize prediction metrics, clean incomplete profiles, and explain exactly how deep trees organize decision criteria.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">S</span>
+                                Situation
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I set up a remote notebook file inside Google Colab, leveraging computing nodes to execute analytics algorithms easily." data-pov-she="She operated inside Google Colab, writing organized Python blocks and executing visualization operations remotely.">
+                                I set up a remote notebook file inside Google Colab, leveraging computing nodes to execute analytics algorithms easily.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">C</span>
+                                Challenge
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="The primary challenge was managing incomplete record attributes without corrupting data distribution, alongside mapping out exactly how black-box model logic runs." data-pov-she="The core challenge was addressing missing data segments without skewing passenger records, combined with articulating tree mechanics rather than relying on abstract model libraries.">
+                                The primary challenge was managing incomplete record attributes without corrupting data distribution, alongside mapping out exactly how black-box model logic runs.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">A</span>
+                                Action
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I engineered a group-imputation structure (filling ages according to passenger class) and systematically broke down how decision nodes trace criteria branches in class mock-reviews." data-pov-she="She developed a multi-level imputation model using subclass medians. She then practiced presenting these technical mechanics verbally to an instruction team to secure thorough understanding.">
+                                I engineered a group-imputation structure (filling ages according to passenger class) and systematically broke down how decision nodes trace criteria branches in class mock-reviews.
+                            </div>
+                        </div>
+
+                        <div class="p-5 sm:grid sm:grid-cols-4 sm:gap-6">
+                            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1 sm:mb-0">
+                                <span class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs text-indigo-600">R</span>
+                                Result
+                            </div>
+                            <div class="sm:col-span-3 text-slate-600 leading-relaxed content-node" data-pov-i="I successfully built and explained the model during a full mock presentation, which completely aligned my hands-on analytical logic with EAE requirements." data-pov-she="The process was a success. She conducted clean walk-throughs of her notebook, developing the presentation confidence required for face-to-face academic review boards.">
+                                I successfully built and explained the model during a full mock presentation, which completely aligned my hands-on analytical logic with EAE requirements.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIMULATOR TAB -->
+        <section id="content-simulator" class="hidden space-y-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900">EAE Interview Question Simulator</h2>
+                <p class="text-xs text-slate-500 mt-1">Select a common interview question to see which project story answers it and view the study guide.</p>
+                
+                <!-- Question Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <button onclick="selectQuestion(1)" class="q-btn border border-slate-200 hover:border-indigo-500 hover:bg-slate-50 p-4 rounded-xl text-left transition-all bg-white shadow-sm flex items-start gap-3">
+                        <span class="p-2 bg-slate-100 rounded-lg text-slate-600 shrink-0"><i data-lucide="help-circle" class="w-4 h-4"></i></span>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400">Behavioral</p>
+                            <h4 class="font-bold text-sm text-slate-800 mt-0.5">"Tell me about a time you encountered a difficult coding problem and how you solved it."</h4>
+                        </div>
+                    </button>
+
+                    <button onclick="selectQuestion(2)" class="q-btn border border-slate-200 hover:border-indigo-500 hover:bg-slate-50 p-4 rounded-xl text-left transition-all bg-white shadow-sm flex items-start gap-3">
+                        <span class="p-2 bg-slate-100 rounded-lg text-slate-600 shrink-0"><i data-lucide="help-circle" class="w-4 h-4"></i></span>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400">Project Walkthrough</p>
+                            <h4 class="font-bold text-sm text-slate-800 mt-0.5">"Pick one project from your portfolio and explain how it demonstrates your technical skills."</h4>
+                        </div>
+                    </button>
+
+                    <button onclick="selectQuestion(3)" class="q-btn border border-slate-200 hover:border-indigo-500 hover:bg-slate-50 p-4 rounded-xl text-left transition-all bg-white shadow-sm flex items-start gap-3">
+                        <span class="p-2 bg-slate-100 rounded-lg text-slate-600 shrink-0"><i data-lucide="help-circle" class="w-4 h-4"></i></span>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400">Data &amp; AI Focus</p>
+                            <h4 class="font-bold text-sm text-slate-800 mt-0.5">"Why are you interested in Business Analytics / IT over traditional game development?"</h4>
+                        </div>
+                    </button>
+
+                    <button onclick="selectQuestion(4)" class="q-btn border border-slate-200 hover:border-indigo-500 hover:bg-slate-50 p-4 rounded-xl text-left transition-all bg-white shadow-sm flex items-start gap-3">
+                        <span class="p-2 bg-slate-100 rounded-lg text-slate-600 shrink-0"><i data-lucide="help-circle" class="w-4 h-4"></i></span>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400">Leadership</p>
+                            <h4 class="font-bold text-sm text-slate-800 mt-0.5">"How do your co-curricular activities like NCC (Sea) connect with structured computing?"</h4>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Simulator Display -->
+            <div id="sim-display" class="hidden bg-slate-900 text-white rounded-2xl p-6 shadow-xl space-y-6">
+                <div>
+                    <span class="bg-indigo-500 text-white px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wide">Active Question</span>
+                    <h3 id="sim-active-q" class="text-lg font-bold mt-2">Question details here...</h3>
+                </div>
+
+                <div class="bg-slate-950/50 border border-white/10 rounded-xl p-5 space-y-4">
+                    <h4 class="font-bold text-sm text-indigo-400 flex items-center gap-1.5">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Strategy Guide
+                    </h4>
+                    <p id="sim-strategy" class="text-xs text-slate-300 leading-relaxed">Strategy instruction here...</p>
+                </div>
+
+                <!-- Suggested Model Answer -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-sm text-emerald-400 flex items-center gap-1.5">
+                        <i data-lucide="speech" class="w-4 h-4"></i> Your Recommended Response Framework
+                    </h4>
+                    <div class="bg-slate-950/70 border border-white/15 rounded-xl p-5">
+                        <p id="sim-model-answer" class="text-sm text-slate-100 leading-relaxed italic">Model answer goes here...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKLIST TAB -->
+        <section id="content-checklist" class="hidden space-y-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">EAE Skills Masterlist Checklist</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Check off items as you practice explaining them out loud to build absolute confidence.</p>
+                    </div>
+                    <div class="bg-slate-100 px-4 py-2 rounded-xl text-center self-start sm:self-center">
+                        <span id="checklist-pct" class="text-lg font-black text-indigo-600 block">0%</span>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Mastered</span>
+                    </div>
+                </div>
+
+                <!-- Interactive list categorized -->
+                <div class="mt-6 space-y-6">
+                    <!-- Category 1: General Background -->
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-4 bg-indigo-600 rounded-full"></span> General Background &amp; Soft Skills
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">The 1-Minute Elevator Pitch</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Explain your Fairfield Sec background, NCC (Sea) duties, math interests, and Python transition smoothly.</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">NCC Leadership Parallel</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Articulate how organizing platoons in the cadets maps directly into structuring files and managing databases.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Category 2: Python Snake Game -->
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-4 bg-indigo-600 rounded-full"></span> Python Snake Game Tech
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Coordinates List Management</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Explain how you used a dynamic list of tuple indices `(x, y)` to represent growing body segments.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Event-Driven Loop Constraints</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Describe how you processed instant keyboard hooks without permitting immediate illegal direction reversals.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Systematic Debugging Method</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Discuss using intermittent print checkpoints to check values rather than losing track of complex nested logical scopes.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Git / GitHub Uploads</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Be prepared to explain how committing/pushing your files to remote repositories ensures professional version control.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Category 3: Titanic Data -->
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-4 bg-indigo-600 rounded-full"></span> Titanic &amp; Data Science Tech
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Group Medians for Missing Data</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Explain why calculating median ages by passenger sub-class is superior to simply dropping rows or utilizing overall dataset averages.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Custom Feature Engineering</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Articulate how combining base figures into custom compound columns (`FamilySize`, `IsAlone`, `IsChild`) gives models tighter patterns to read.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Decision Tree Criteria Splits</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Explain how tree classifiers optimize metrics, checking categorical splits down specific branches step-by-step.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 cursor-pointer transition-all select-none">
+                                <input type="checkbox" onchange="updateChecklist()" class="checklist-item mt-1 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">Verbal Walkthrough Confidence</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Practice explaining complex data terms clearly to non-programmers to showcase complete interview confidence.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-400">
+        <p>&copy; 2026 Code Ninja Singapore. Formulated for Elysia Tham's EAE Portfolio Journey.</p>
+    </footer>
+
+    <!-- Interactive JS Controller -->
+    <script>
+        // Init Lucide
+        lucide.createIcons();
+
+        // App States
+        let currentPov = 'I'; // 'I' (first person) or 'SHE' (third person)
+        
+        // Active Tab Switching
+        function switchTab(tabName) {
+            // Hide all tab panels
+            document.getElementById('content-pitch').classList.add('hidden');
+            document.getElementById('content-frameworks').classList.add('hidden');
+            document.getElementById('content-simulator').classList.add('hidden');
+            document.getElementById('content-checklist').classList.add('hidden');
+            
+            // Show requested panel
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+
+            // Reset tab class styles
+            const tabs = ['pitch', 'frameworks', 'simulator', 'checklist'];
+            tabs.forEach(t => {
+                const element = document.getElementById(`tab-${t}`);
+                if (t === tabName) {
+                    element.className = "flex-grow py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 bg-indigo-600 text-white";
+                } else {
+                    element.className = "flex-grow py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-50";
+                }
+            });
+        }
+
+        // Active Project Sheet Switching
+        function switchProject(projName) {
+            document.getElementById('project-snake').classList.add('hidden');
+            document.getElementById('project-titanic').classList.add('hidden');
+            document.getElementById(`project-${projName}`).classList.remove('hidden');
+
+            const btnSnake = document.getElementById('proj-btn-snake');
+            const btnTitanic = document.getElementById('proj-btn-titanic');
+
+            if (projName === 'snake') {
+                btnSnake.className = "px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm";
+                btnTitanic.className = "px-4 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-800";
+            } else {
+                btnTitanic.className = "px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm";
+                btnSnake.className = "px-4 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-800";
+            }
+        }
+
+        // Toggle First/Third Person POV
+        const toggleBtn = document.getElementById('toggle-pov-btn');
+        const povStatusSpan = document.getElementById('pov-status');
+        const pitchTextElement = document.getElementById('pitch-text');
+
+        toggleBtn.addEventListener('click', () => {
+            if (currentPov === 'I') {
+                currentPov = 'SHE';
+                povStatusSpan.innerText = 'Third-Person (Portfolio Text)';
+                toggleBtn.classList.remove('bg-slate-100', 'text-slate-700');
+                toggleBtn.classList.add('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-300');
+                
+                // Update Pitch Text to Third Person
+                pitchTextElement.innerText = '"Elysia is currently a Sec 4 student at Fairfield Methodist Secondary School, and she is aiming to join the Business Analytics course. She has always enjoyed mathematics because she likes the satisfaction of figuring out complex problems step-by-step. This logic naturally led her to programming, where she spent the last three years at Code Ninja transitioning from visual scripts to Python algorithms, building custom games and training data models. Outside of coding, she serves as a Platoon Sergeant in the NCC (Sea). This leadership role taught her how to coordinate teams, manage structures under pressure, and remain organized—qualities she hopes to apply directly to her business and analytic studies here."';
+            } else {
+                currentPov = 'I';
+                povStatusSpan.innerText = 'First-Person (Interview Prep)';
+                toggleBtn.classList.remove('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-300');
+                toggleBtn.classList.add('bg-slate-100', 'text-slate-700');
+                
+                // Update Pitch Text back to First Person
+                pitchTextElement.innerText = '"Hello, I am Elysia. I\'m currently a Sec 4 student at Fairfield Methodist Secondary School, and I am aiming to join the Business Analytics course. I have always enjoyed mathematics because I love the satisfaction of figuring out complex problems step-by-step. This logic naturally led me to programming, where I spent the last three years at Code Ninja transitioning from visual scripts to Python algorithms, building custom games and training data models. Outside of coding, I serve as a Platoon Sergeant in the NCC (Sea). This leadership role taught me how to coordinate teams, manage structures under pressure, and remain organized—qualities I hope to apply directly to my business and analytic studies here."';
+            }
+            updateDomPovs();
+        });
+
+        // Loop through all POV content nodes and swap text content dynamically
+        function updateDomPovs() {
+            const nodes = document.querySelectorAll('.content-node');
+            nodes.forEach(node => {
+                if (currentPov === 'I') {
+                    node.innerText = node.getAttribute('data-pov-i');
+                } else {
+                    node.innerText = node.getAttribute('data-pov-she');
+                }
+            });
+        }
+
+        // Interview Simulator Selector
+        const qData = {
+            1: {
+                question: `"Tell me about a time you encountered a difficult coding problem and how you solved it."`,
+                strategy: `This is a classic behavioral question. Focus on your Python Snake Game logic. Speak explicitly about how you handled the growing tail blocks inside lists, or how you solved direct direction changes by building structured conditional constraints. Highlight your systematic debugging check—using print triggers instead of panicking.`,
+                answer: `"During my Python Snake game project, I hit a massive wall when implementing the tail growth logic. Every time the snake ate food, appending new body segments caused alignment glitches, and the snake would occasionally crash into its own body on simple turns. To solve this, I designed a validation step inside my event-handling loops to block opposite commands instantly. When compiling errors piled up, I stayed patient, placed strategic print checkpoints in my update functions, and step-checked the coordinates array. This organized process ensured the mechanics executed flawlessly, and taught me how to handle compound arrays under real-world conditions."`
+            },
+            2: {
+                question: `"Pick one project from your portfolio and explain how it demonstrates your technical skills."`,
+                strategy: `Pick the Titanic Data Science project! This directly links your computing skillsets with the business analytics course pathway. Highlight cleaning corrupted columns, extracting features using Pandas, and training a Decision Tree with Scikit-Learn.`,
+                answer: `"The project I am most proud of is my Titanic dataset analysis inside Google Colab. To clean corrupted age attributes logically, I filled gaps based on subclass median groupings instead of blindly deleting values. I then engineered custom variables like 'FamilySize' and 'IsAlone' to create clearer markers. Finally, I trained a predictive Decision Tree model using Scikit-Learn. This gave me hands-on practice with an end-to-end data pipeline, demonstrating that I can clean complex, raw tables and transform them into operational business intelligence."`
+            },
+            3: {
+                question: `"Why are you interested in Business Analytics / IT over traditional game development?"`,
+                strategy: `This shows your maturity. Frame your transition from game development projects (like Snake) as a learning stepping-stone into business analytics, discovering that you are fascinated by uncovering invisible patterns in complex tables.`,
+                answer: `"While creating custom games like Snake was highly rewarding for learning core execution loops, I realized my true passion lies in structured logic and solving complex, real-world patterns. Transitioning to the Titanic data project made me realize that data science is simply advanced puzzle-solving. I enjoyed using libraries like Pandas to clean records and uncover hidden trends. The opportunity to translate raw data tables into useful, actionable business decisions is exactly why I want to pursue Business Analytics."`
+            },
+            4: {
+                question: `"How do your co-curricular activities like NCC (Sea) connect with structured computing?"`,
+                strategy: `Use this to show strong leadership. Draw a clear parallel between the organizational command structures of your Platoon Sergeant role in the military cadets and clean, modular procedural programming.`,
+                answer: `"As a Platoon Sergeant in the NCC (Sea), my job is to coordinate platoons, manage structures under pressure, and keep operational tasks organized. I've realized this is identical to structured programming. In Python, if your modules are unorganized or your functions lack clean separation, your program crashes. Both roles demand logical planning, step-by-step coordination, and systematic problem-solving. My leadership experience in cadets gives me the discipline and management perspective to handle large projects under pressure."`
+            }
+        };
+
+        function selectQuestion(qNum) {
+            // Remove previous active classes
+            const btns = document.querySelectorAll('.q-btn');
+            btns.forEach(btn => btn.classList.remove('ring-2', 'ring-indigo-500', 'border-indigo-500'));
+
+            // Set active display content
+            const data = qData[qNum];
+            document.getElementById('sim-active-q').innerText = data.question;
+            document.getElementById('sim-strategy').innerText = data.strategy;
+            document.getElementById('sim-model-answer').innerText = data.answer;
+
+            // Display simulator panel
+            document.getElementById('sim-display').classList.remove('hidden');
+
+            // Scroll down cleanly to the simulator screen
+            document.getElementById('sim-display').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Checklist Progress Tracker
+        function updateChecklist() {
+            const totalItems = document.querySelectorAll('.checklist-item').length;
+            const checkedItems = document.querySelectorAll('.checklist-item:checked').length;
+            
+            const pct = Math.round((checkedItems / totalItems) * 100);
+            
+            document.getElementById('checklist-pct').innerText = `${pct}%`;
+        }
+    </script>
+</body>
+</html>

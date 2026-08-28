@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Studio | EAE / EAS Singapore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    :root { --ink: #17201e; --paper: #f5f3ed; --coral: #ef6f51; --teal: #1f7770; --yellow: #f4c95d; }
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
+    h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+    .noise { background-image: radial-gradient(rgba(23,32,30,.08) .7px, transparent .7px); background-size: 8px 8px; }
+    .field { width: 100%; border: 1px solid #d6d8d0; background: rgba(255,255,255,.82); border-radius: 8px; padding: 11px 12px; outline: none; transition: border .2s, box-shadow .2s; }
+    .field:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(31,119,112,.12); }
+    .check { accent-color: var(--teal); }
+    .question { border-left: 3px solid var(--coral); }
+    .fade-in { animation: rise .45s ease both; }
+    .tab-button { border: 1px solid transparent; transition: all .2s ease; }
+    .tab-button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); box-shadow: 3px 3px 0 var(--yellow); }
+    .tab-panel { animation: rise .3s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media print { .no-print { display: none !important; } body { background: white; } .print-area { display: block !important; } }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="no-print border-b border-black/10 bg-[#17201e] text-[#f5f3ed]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5">
+      <div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-lg bg-[#f4c95d] text-[#17201e]"><i data-lucide="compass" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-[.18em] text-[#f4c95d]">Instructor workspace</p><h1 class="display text-xl font-bold">Interview Studio</h1></div></div>
+      <div class="flex items-center gap-3"><button id="settingsButton" class="flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2 text-xs font-bold text-white/80 hover:bg-white/10"><i data-lucide="settings" class="h-4 w-4"></i><span>Settings</span></button><div class="hidden text-right text-xs text-white/60 sm:block">EAE / EAS preparation<br>Singapore secondary students</div></div>
+    </div>
+  </header>
+
+  <main class="no-print mx-auto max-w-6xl px-5 py-8">
+    <div class="mb-8 max-w-2xl"><p class="mb-2 text-sm font-bold uppercase tracking-[.16em] text-[#1f7770]">A three-part interview studio</p><h2 class="display text-4xl font-bold leading-tight sm:text-5xl">Build the story. Learn the shape. Practise the room.</h2><p class="mt-4 max-w-xl text-base leading-7 text-black/65">Move from a student's real experiences to useful answer patterns and repeatable roleplay practice.</p></div>
+
+    <nav class="mb-6 grid gap-2 rounded-xl border border-black/10 bg-white p-2 sm:grid-cols-3" aria-label="Studio sections">
+      <button class="tab-button rounded-lg px-4 py-3 text-left" data-tab="profile" aria-selected="true"><span class="block text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Tab A</span><strong class="mt-1 block display text-base">Student &amp; projects</strong><span class="mt-1 block text-xs text-black/55">Gather the story and generate</span></button>
+      <button class="tab-button rounded-lg px-4 py-3 text-left" data-tab="library" aria-selected="false"><span class="block text-xs font-bold uppercase tracking-widest text-[#1f7770]">Tab B</span><strong class="mt-1 block display text-base">Answer lab</strong><span class="mt-1 block text-xs text-black/55">Frameworks, models and cheat sheets</span></button>
+      <button class="tab-button rounded-lg px-4 py-3 text-left" data-tab="practice" aria-selected="false"><span class="block text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Tab C</span><strong class="mt-1 block display text-base">Roleplay room</strong><span class="mt-1 block text-xs text-black/55">Questions, drills and class plans</span></button>
+    </nav>
+
+    <div id="tab-profile" class="tab-panel grid gap-6 lg:grid-cols-[1.05fr_.95fr]"></div>
+    <div id="tab-library" class="tab-panel hidden space-y-6"></div>
+    <div id="tab-practice" class="tab-panel hidden space-y-6"></div>
+
+    <div id="source-layout" class="hidden grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
+      <section class="rounded-xl border border-black/10 bg-white p-5 shadow-[4px_4px_0_#d8d5ca] sm:p-7">
+        <div class="mb-6 flex items-center justify-between border-b border-black/10 pb-4"><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">01 / Student brief</p><h3 class="display mt-1 text-2xl font-bold">Tell us who they are</h3></div><i data-lucide="notebook-pen" class="h-6 w-6 text-[#1f7770]"></i></div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="text-sm font-semibold">Student name<input id="name" class="field mt-2" placeholder="e.g. Aisha Tan"></label>
+          <label class="text-sm font-semibold">School<input id="school" class="field mt-2" placeholder="e.g. Fairfield Methodist"></label>
+          <label class="text-sm font-semibold">Target course / institution<input id="course" class="field mt-2" placeholder="e.g. SP Business Administration"></label>
+          <label class="text-sm font-semibold">Interview date<input id="date" type="date" class="field mt-2"></label>
+          <label class="text-sm font-semibold sm:col-span-2">Pronouns for written portfolio text (optional)<input id="pronouns" class="field mt-2" placeholder="e.g. she/her, he/him, they/them — defaults to they/them"></label>
+        </div>
+        <div class="mt-5 space-y-4">
+          <label class="block text-sm font-semibold">Why this course or pathway?<textarea id="motivation" class="field mt-2 min-h-24" placeholder="What genuinely attracts the student? What have they noticed, made, or tried?"></textarea></label>
+          <label class="block text-sm font-semibold">School life and favourite subjects<textarea id="schoolLife" class="field mt-2 min-h-20" placeholder="Subjects, a project, a memory, or something they improved at"></textarea></label>
+          <label class="block text-sm font-semibold">CCA, leadership and activities<textarea id="cca" class="field mt-2 min-h-20" placeholder="Role, duration, responsibilities, achievement, teamwork or discipline"></textarea></label>
+          <label class="block text-sm font-semibold">Achievements they are proud of<textarea id="achievements" class="field mt-2 min-h-20" placeholder="School, competitions, sports, coding or personal milestones"></textarea></label>
+          <label class="block text-sm font-semibold">Coding / making experience<textarea id="coding" class="field mt-2 min-h-20" placeholder="Languages, tools, projects and what they learned"></textarea></label>
+          <label class="block text-sm font-semibold">Favourite project deep dive<textarea id="project" class="field mt-2 min-h-28" placeholder="Project name, goal, how it works, hardest problem, memorable error and result"></textarea></label>
+          <div class="rounded-lg border border-[#1f7770]/20 bg-[#e8f4ef] p-4">
+            <div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Project shelf · optional</p><p class="mt-1 text-sm leading-5 text-black/65">Add one or several projects to compare. Leave this empty if there is nothing to showcase yet.</p></div><i data-lucide="folder-plus" class="h-5 w-5 shrink-0 text-[#1f7770]"></i></div>
+            <div class="mt-3 grid gap-2 sm:grid-cols-[.8fr_1.2fr_auto]"><input id="projectName" class="field" placeholder="Project name"><input id="projectNote" class="field" placeholder="What did they make or learn?"><button id="addProject" type="button" class="flex items-center justify-center gap-1 rounded-lg bg-[#1f7770] px-3 py-2 text-sm font-bold text-white hover:bg-[#175f59]" aria-label="Add project"><i data-lucide="plus" class="h-4 w-4"></i><span>Add</span></button></div>
+            <div id="projectList" class="mt-3 space-y-2"></div>
+          </div>
+          <label class="block text-sm font-semibold">Working style and growth edge<textarea id="working" class="field mt-2 min-h-20" placeholder="How do they respond to change, help others, work in groups, or communicate? What should improve?"></textarea></label>
+        </div>
+        <div class="mt-6 border-t border-black/10 pt-5"><p class="mb-3 text-sm font-semibold">Generate emphasis</p><div class="grid gap-2 sm:grid-cols-2"><label class="flex items-center gap-2 text-sm"><input class="check focus:ring-0" type="checkbox" name="focus" value="motivation" checked> Motivation & fit</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="project" checked> Project explanation</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="behavioral" checked> Behavioural stories</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="technical"> Technical depth</label></div></div>
+        <button id="generate" class="mt-7 flex w-full items-center justify-center gap-2 rounded-lg bg-[#ef6f51] px-5 py-3.5 font-bold text-white transition hover:bg-[#d95b40]"><i data-lucide="sparkles" class="h-4 w-4"></i> Generate interview plan</button>
+      </section>
+
+      <section class="space-y-6">
+        <div class="rounded-xl border border-black/10 bg-[#dcebe5] p-5 sm:p-7"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">02 / AI provider &amp; API key</p><h3 class="display mt-1 text-2xl font-bold">Choose your engine</h3></div><i data-lucide="key-round" class="h-6 w-6 text-[#1f7770]"></i></div><p class="mt-3 text-sm leading-6 text-black/65">Local generation is always available. Add a key for richer coaching notes. Keys are saved locally in this browser and never displayed once saved.</p><label class="mt-4 block text-sm font-semibold">AI provider<select id="provider" class="field mt-2"><option value="openrouter">OpenRouter · many models, one key</option><option value="openai">OpenAI</option><option value="groq">Groq</option><option value="together">Together AI</option><option value="custom">Custom OpenAI-compatible</option></select></label><label class="mt-3 block text-sm font-semibold">API endpoint URL<input id="apiEndpoint" class="field mt-2" value="https://openrouter.ai/api/v1/chat/completions"></label><label class="mt-3 block text-sm font-semibold">API key<input id="apiKey" type="password" class="field mt-2" placeholder="Leave blank to keep the saved key"></label><p id="keyStatus" class="mt-2 hidden text-xs font-semibold text-[#1f7770]">✓ API key is saved (hidden for security)</p><label class="mt-3 block text-sm font-semibold">AI model<select id="model" class="field mt-2"></select></label><div class="mt-4 grid gap-3 sm:grid-cols-[1fr_auto]"><input id="modelCustom" class="field" placeholder="Or type any model name"><button id="aiGenerate" class="rounded-lg bg-[#17201e] px-4 py-2 text-sm font-bold text-white hover:bg-black">Enhance with AI</button></div><p class="mt-3 text-xs text-black/55">Not sure? OpenRouter is easiest. Get a key at <a class="font-bold underline" href="https://openrouter.ai/keys" target="_blank" rel="noreferrer">openrouter.ai/keys</a>.</p><p id="aiStatus" class="mt-3 hidden text-xs font-semibold"></p></div>
+        <div class="rounded-xl border border-black/10 bg-white p-5">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#f4c95d]"><i data-lucide="book-open-check" class="h-5 w-5"></i></div>
+              <div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Personalised answer lab</p><h3 class="display text-xl font-bold">Framework worksheets</h3></div>
+            </div>
+            <button id="labPovToggle" type="button" class="flex shrink-0 items-center gap-2 rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5"><i data-lucide="repeat" class="h-3.5 w-3.5"></i><span>Voice: Interview</span></button>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-black/65">Generated from this student's own notes in Tab A — not from a template story. Toggle the voice to switch between rehearsing it aloud and writing it up for a portfolio or personal statement. These are coaching worksheets, not scripts: adapt the wording, never memorise a fictional story.</p>
+          <div id="answerLabEmpty" class="mt-4 rounded-lg border border-dashed border-black/20 p-6 text-center text-sm text-black/50">Fill in the student brief and click "Generate interview plan" to build personalised worksheets here.</div>
+          <div id="answerLabContent" class="mt-4 hidden space-y-4"></div>
+        </div>
+        <div id="empty" class="noise rounded-xl border border-dashed border-black/20 p-8 text-center"><div class="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#f4c95d]"><i data-lucide="route" class="h-5 w-5"></i></div><h3 class="display mt-4 text-xl font-bold">Your plan will appear here</h3><p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-black/60">Fill in enough of the student's story to make the questions sound like them, not a generic worksheet.</p></div>
+        <div id="result" class="hidden space-y-5"></div>
+      </section>
+    </div>
+  </main>
+
+  <section id="printArea" class="print-area mx-auto hidden max-w-4xl px-5 py-8"></section>
+  <section id="settingsPanel" class="no-print fixed inset-0 z-50 hidden bg-black/40 p-5"><div class="mx-auto mt-8 max-w-2xl rounded-xl border border-black/10 bg-[#f5f3ed] p-6 shadow-2xl sm:p-8"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Studio settings</p><h2 class="display mt-1 text-3xl font-bold">Prompts &amp; defaults</h2></div><button id="closeSettings" class="rounded-lg p-2 hover:bg-black/10" aria-label="Close settings"><i data-lucide="x" class="h-5 w-5"></i></button></div><p class="mt-3 text-sm leading-6 text-black/65">These instructions shape the optional AI layer. Keep them specific to your teaching approach; student facts are added automatically for each plan.</p><label class="mt-5 block text-sm font-semibold">System prompt<textarea id="systemPrompt" class="field mt-2 min-h-32"></textarea></label><label class="mt-4 block text-sm font-semibold">Coaching prompt<textarea id="coachingPrompt" class="field mt-2 min-h-32"></textarea></label><div class="mt-5 flex justify-end gap-3"><button id="resetSettings" class="rounded-lg border border-black/15 px-4 py-2 text-sm font-bold hover:bg-black/5">Reset prompts</button><button id="saveSettings" class="rounded-lg bg-[#17201e] px-4 py-2 text-sm font-bold text-white">Save settings</button></div></div></section>
+
+  <script>
+    lucide.createIcons();
+    const $ = id => document.getElementById(id);
+    const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    const providerDefaults = { openrouter: { endpoint: 'https://openrouter.ai/api/v1/chat/completions', models: ['openai/gpt-4o-mini','anthropic/claude-3.5-haiku','google/gemini-2.0-flash-001','meta-llama/llama-3.1-8b-instruct'] }, openai: { endpoint: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini','gpt-4.1-mini','gpt-4o'] }, gemini: { endpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', models: ['gemini-2.5-flash','gemini-2.5-pro','gemini-2.0-flash'] }, claude: { endpoint: 'https://openrouter.ai/api/v1/chat/completions', models: ['anthropic/claude-sonnet-4','anthropic/claude-3.7-sonnet','anthropic/claude-3.5-haiku'] }, groq: { endpoint: 'https://api.groq.com/openai/v1/chat/completions', models: ['llama-3.3-70b-versatile','openai/gpt-oss-20b','moonshotai/kimi-k2-instruct'] }, together: { endpoint: 'https://api.together.xyz/v1/chat/completions', models: ['meta-llama/Llama-3.3-70B-Instruct-Turbo','Qwen/Qwen2.5-72B-Instruct-Turbo'] }, ollama: { endpoint: 'http://localhost:11434/v1/chat/completions', models: ['llama3.2','qwen2.5','deepseek-r1'] }, custom: { endpoint: '', models: [] } };
+    const sourceLayout = $('source-layout');
+    const profileSource = sourceLayout.children[0];
+    const rightSource = sourceLayout.children[1];
+    const apiSource = rightSource.children[0];
+    const librarySource = rightSource.children[1];
+    const emptySource = rightSource.children[2];
+    const resultSource = rightSource.children[3];
+    $('tab-profile').append(profileSource, apiSource);
+    $('tab-library').append(librarySource, document.createRange().createContextualFragment(`<div class="rounded-xl border border-[#1f7770]/20 bg-[#e8f4ef] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Quick cheat sheet</p><div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><div><strong class="display text-lg">STAR</strong><p class="mt-1 text-xs leading-5 text-black/65">Situation, Task, Action, Result. Best for people, leadership and setbacks.</p></div><div><strong class="display text-lg">OSCAR</strong><p class="mt-1 text-xs leading-5 text-black/65">Outcome, Situation, Challenge, Action, Result. Best for projects and problem-solving.</p></div><div><strong class="display text-lg">PREP</strong><p class="mt-1 text-xs leading-5 text-black/65">Point, Reason, Example, Point. Best for opinions and course-fit answers.</p></div><div><strong class="display text-lg">SBI</strong><p class="mt-1 text-xs leading-5 text-black/65">Situation, Behaviour, Impact. Best for reflection, growth and feedback answers.</p></div></div><p class="mt-3 text-xs text-black/50">Behavioural &amp; leadership → STAR · Projects → OSCAR · Opinions &amp; course fit → PREP · Growth &amp; feedback → SBI</p></div>`));
+    $('tab-practice').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#1f7770] text-white"><i data-lucide="clipboard-list" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Session blueprint</p><h3 class="display text-xl font-bold">A 45-60 minute coaching session</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Use this shape for every rehearsal. Generate a plan in Tab A to turn these steps into a runsheet built around this specific student, with real question text and weak areas filled in below.</p><ol class="mt-4 space-y-3">
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">1 · Setup</strong><span class="text-xs text-black/45">3 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Skim the profile and instructor note in the Answer Lab. Pick two questions to watch closely.</p><p><strong>Student:</strong> Has the Tab B worksheets open for reference, not to read from.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">2 · Warm-up pitch</strong><span class="text-xs text-black/45">5 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Time a 60-second "tell me about yourself" with zero interruptions.</p><p><strong>Student:</strong> Delivers the pitch once, cold, to set a baseline.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">3 · Framework walkthrough</strong><span class="text-xs text-black/45">8 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Open the Tab B worksheet matching today's weakest area and model one row aloud.</p><p><strong>Student:</strong> Fills in that row's "practice answer" line in their own words.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">4 · Round 1 — untimed</strong><span class="text-xs text-black/45">15 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Ask every question in the deck, in order, with no time pressure. Note vague or missing details.</p><p><strong>Student:</strong> Answers fully — thinking out loud is fine here.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">5 · Round 2 — focused redo</strong><span class="text-xs text-black/45">10 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Replay only the weakest 2-3 answers from Round 1 and ask one follow-up on each.</p><p><strong>Student:</strong> Adds one new concrete detail per answer — no starting from scratch.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">6 · Round 3 — panel simulation</strong><span class="text-xs text-black/45">10 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Ask in random order, add unscripted follow-ups, hold a strict 60-second limit, no notes allowed.</p><p><strong>Student:</strong> Answers as if this were the real panel.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">7 · Wrap-up &amp; homework</strong><span class="text-xs text-black/45">5 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Instructor:</strong> Name one clear strength and one thing to fix before the next session.</p><p><strong>Student:</strong> Writes down the fix and one missing detail to gather before next time.</p></div></li>
+    </ol></div>`), emptySource, resultSource);
+    lucide.createIcons();
+    const projects = [];
+    const renderProjects = () => { $('projectList').innerHTML = projects.length ? projects.map((item, index) => `<div class="flex items-center justify-between gap-3 rounded-lg bg-white/70 px-3 py-2 text-sm"><span><strong>${escapeHtml(item.name)}</strong><span class="ml-2 text-black/55">${escapeHtml(item.note)}</span></span><button type="button" class="remove-project text-xs font-bold text-[#ef6f51]" data-index="${index}">Remove</button></div>`).join('') : '<p class="text-xs italic text-black/50">No showcase projects added yet.</p>'; };
+    $('addProject').addEventListener('click', () => { const name = $('projectName').value.trim(); const note = $('projectNote').value.trim(); if (!name && !note) return; projects.push({name: name || 'Untitled project', note: note || 'No notes added'}); $('projectName').value = ''; $('projectNote').value = ''; renderProjects(); });
+    $('projectList').addEventListener('click', event => { if (event.target.matches('.remove-project')) { projects.splice(Number(event.target.dataset.index), 1); renderProjects(); } });
+    renderProjects();
+    const showTab = tab => { document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('hidden', panel.id !== `tab-${tab}`)); document.querySelectorAll('.tab-button').forEach(button => button.setAttribute('aria-selected', String(button.dataset.tab === tab))); lucide.createIcons(); };
+    document.querySelectorAll('.tab-button').forEach(button => button.addEventListener('click', () => showTab(button.dataset.tab)));
+    $('provider').insertAdjacentHTML('beforeend', '<option value="gemini">Google Gemini</option><option value="claude">Anthropic Claude · via OpenRouter</option><option value="ollama">Ollama · local, no key</option>');
+    const defaultSettings = { system: 'You are an interview coach for Singapore EAE/EAS students. This tool already structures answers using the STAR, OSCAR, PREP and SBI frameworks — build on those, do not invent a new scheme. Return concise, age-appropriate coaching notes grounded only in the facts given. Do not invent achievements, stories or outcomes.', coaching: 'Using only the student facts provided: (1) for each weak area listed, write one specific question the instructor should ask to draw out a missing detail; (2) name the single best-fit framework (STAR, OSCAR, PREP or SBI) for the student\'s strongest story and why; (3) give one classroom facilitation tip specific to this student; (4) give one likely interviewer follow-up question and what a strong reply would cover. Keep the whole response under 200 words.' };
+    const getProfile = () => ({ name: $('name').value.trim() || 'Your student', school: $('school').value.trim(), course: $('course').value.trim() || 'their target course', date: $('date').value, pronouns: $('pronouns').value.trim(), motivation: $('motivation').value.trim(), schoolLife: $('schoolLife').value.trim(), cca: $('cca').value.trim(), achievements: $('achievements').value.trim(), coding: $('coding').value.trim(), project: [$('project').value.trim(), ...projects.map(item => `${item.name}: ${item.note}`)].filter(Boolean).join('\n'), projects, working: $('working').value.trim(), focus: [...document.querySelectorAll('input[name="focus"]:checked')].map(input => input.value) });
+    const getSettings = () => JSON.parse(localStorage.getItem('eaeStudioSettings') || JSON.stringify(defaultSettings));
+    const updateModels = () => { const config = providerDefaults[$('provider').value]; $('apiEndpoint').value = config.endpoint; $('model').innerHTML = config.models.map(model => `<option value="${model}">${model}</option>`).join('') || '<option value="">Custom model below</option>'; };
+    const savedKey = () => localStorage.getItem('eaeStudioApiKey') || '';
+    updateModels(); $('provider').addEventListener('change', updateModels); if (savedKey()) $('keyStatus').classList.remove('hidden');
+    $('systemPrompt').value = getSettings().system; $('coachingPrompt').value = getSettings().coaching;
+    let latestPlan = null;
+    let labPov = 'interview';
+    const has = (profile, key) => profile[key].length > 20;
+    const parsePronoun = value => { const key = (value || '').trim().toLowerCase(); if (key.startsWith('she')) return 'she'; if (key.startsWith('he')) return 'he'; return 'they'; };
+
+    const frameworkDefs = [
+      { key: 'star', name: 'STAR', bestFor: 'People, leadership and setbacks', field: 'cca', title: 'Leadership & teamwork story', focus: 'behavioral', rows: [
+          { letter: 'S', label: 'Situation', coach: 'Set the scene: role, timeframe, and what was at stake. Ask when and where this happened.' },
+          { letter: 'T', label: 'Task', coach: 'Name the one responsibility or goal that was specifically theirs, not the whole team’s job.' },
+          { letter: 'A', label: 'Action', coach: 'The longest part. Draw out 2-3 concrete things they personally did, in first person.' },
+          { letter: 'R', label: 'Result', coach: 'Close with what changed, ideally something measurable, plus one lesson learned.' }
+      ]},
+      { key: 'oscar', name: 'OSCAR', bestFor: 'Projects and technical problem-solving', field: 'project', title: 'Project deep-dive', focus: 'project', rows: [
+          { letter: 'O', label: 'Outcome', coach: 'One plain-English sentence a non-coder would understand: what was this meant to achieve?' },
+          { letter: 'S', label: 'Situation', coach: 'Where and how did they build it — tools, timeframe, solo or with others?' },
+          { letter: 'C', label: 'Challenge', coach: 'The hardest true obstacle. Push back gently if the first answer sounds too easy.' },
+          { letter: 'A', label: 'Action', coach: 'Walk through the fix step by step: first attempt, what failed, what actually worked.' },
+          { letter: 'R', label: 'Result', coach: 'What works now, and what does it prove? Link it back to why it matters for their course.' }
+      ]},
+      { key: 'prep', name: 'PREP', bestFor: 'Opinions and course-fit answers', field: 'motivation', title: 'Course motivation', focus: 'motivation', rows: [
+          { letter: 'P', label: 'Point', coach: 'State the answer in one clear sentence first: which course/pathway, and why, in a nutshell.' },
+          { letter: 'R', label: 'Reason', coach: 'Give the underlying reason: a value or realisation, not just "it sounds fun".' },
+          { letter: 'E', label: 'Example', coach: 'Back it up with one concrete piece of evidence: a project, subject or experience.' },
+          { letter: 'P', label: 'Point (restate)', coach: 'Return to the opening point, naming one thing they want to learn next in the course.' }
+      ]},
+      { key: 'sbi', name: 'SBI', bestFor: 'Reflection, growth and feedback answers', field: 'working', title: 'Growth & feedback story', focus: 'behavioral', rows: [
+          { letter: 'S', label: 'Situation', coach: 'Describe the specific moment: what was happening when the feedback or mistake occurred?' },
+          { letter: 'B', label: 'Behaviour', coach: 'Name the actual decision or behaviour, without excuses or blaming others.' },
+          { letter: 'I', label: 'Impact', coach: 'Explain the impact it had, and exactly what changed in how they work afterwards.' }
+      ]}
+    ];
+
+    function buildFrameworkCards(profile) {
+      return frameworkDefs.filter(def => profile.focus.includes(def.focus)).map(def => ({ ...def, anchor: profile[def.field], hasAnchor: has(profile, def.field) }));
+    }
+
+    function renderAnswerLab(plan) {
+      const { profile } = plan;
+      const cards = buildFrameworkCards(profile);
+      $('answerLabEmpty').classList.add('hidden');
+      $('answerLabContent').classList.remove('hidden');
+      const anchorLabel = labPov === 'interview' ? 'Say it like this in the room — source notes:' : `Turn ${escapeHtml(profile.name)}'s notes into portfolio voice — source notes:`;
+      $('answerLabContent').innerHTML = cards.length ? cards.map(card => `<div class="rounded-xl border border-black/10 bg-white p-5">
+        <div class="flex items-start justify-between gap-3"><div><span class="inline-block rounded bg-[#1f7770]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#1f7770]">${card.name}</span><h4 class="display mt-1 text-lg font-bold">${escapeHtml(card.title)}</h4></div><span class="max-w-[42%] text-right text-[10px] font-semibold text-black/45">Best for: ${escapeHtml(card.bestFor)}</span></div>
+        <div class="mt-3 rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-black/45">${anchorLabel}</p><p class="mt-1 text-sm italic leading-6 text-black/75">${card.hasAnchor ? '“' + escapeHtml(card.anchor.slice(0, 320)) + (card.anchor.length > 320 ? '…' : '') + '”' : `No notes yet — ask ${escapeHtml(profile.name)} to describe this before the session.`}</p></div>
+        <div class="mt-3 divide-y divide-black/5">${card.rows.map(row => `<div class="flex gap-3 py-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-[11px] font-bold">${row.letter}</span><div><p class="text-xs font-bold">${escapeHtml(row.label)}</p><p class="mt-0.5 text-xs leading-5 text-black/60">${escapeHtml(row.coach)}</p></div></div>`).join('')}</div>
+        <label class="mt-3 block text-xs font-semibold text-black/50">Practice answer (write it once, then say it aloud)<textarea class="field mt-1 min-h-16 text-sm"></textarea></label>
+      </div>`).join('') : `<p class="text-sm italic text-black/50">No frameworks selected — tick at least one focus area in the student brief.</p>`;
+      lucide.createIcons();
+    }
+
+    function buildPlan(profile) {
+      const questions = [];
+      if (profile.focus.includes('motivation')) questions.push({tag:'FIT', q:`Why ${profile.course}, and why now?`, drill:'Answer in 60 seconds: attraction, evidence, next step.', lesson:'Connect the course to one real observation or experience. Avoid only saying “I like computers.”', answer:'Start with the satisfaction of solving problems, connect it to a project or dataset, then explain why turning patterns into useful decisions makes this course the right next step.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:`Walk us through your favourite project as if we have never seen it.`, drill:'Use Goal → How it works → One decision → Result.', lesson:'Make the explanation understandable before adding technical vocabulary.', answer:'A strong structure is: goal, simple user journey, one technical decision, one obstacle, and the result. The original Elysia guide uses this shape for both the Snake game and Titanic data project.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'What was the hardest problem in this project, and what did you try first?', drill:'Give the failed attempt as well as the final fix.', lesson:'Interviewers are listening for process, persistence, and what changed after feedback.', answer:'The Elysia model answer names the bug, explains the test or checkpoint used to isolate it, and finishes with what the debugging process taught her.'});
+      if (profile.focus.includes('technical') && has(profile,'coding')) questions.push({tag:'TECH', q:'What is one technical idea from your work that you can explain simply?', drill:'Explain it once to a 12-year-old, then once to a course lecturer.', lesson:'A strong answer shows ownership. Name what you personally built, tested, or changed.', answer:'Use the project vocabulary only after the plain-English explanation. For example: describe a list of coordinates first, then explain how it supports Snake movement.'});
+      if (profile.focus.includes('behavioral') && has(profile,'cca')) questions.push({tag:'STORY', q:'Tell us about a time you had to work with or lead other people.', drill:'Speak in STAR: Situation, Task, Action, Result.', lesson:'Spend most of the answer on your action, then state what you learned.', answer:'Borrow the transfer idea from Elysia’s NCC example: explain the responsibility, the decision made under pressure, the people affected, and how that habit helps with structured projects.'});
+      if (profile.focus.includes('behavioral')) questions.push({tag:'STORY', q:'Tell us about a mistake, setback, or piece of feedback that improved you.', drill:'Record two takes. In the second, make the learning concrete.', lesson:'Do not hide the difficulty. Show reflection and a changed behaviour.', answer:'Name a real setback without over-dramatising it, show the exact action taken to recover, and end with a habit that changed afterwards.'});
+      questions.push({tag:'FOLLOW-UP', q:'What would you like to learn or contribute in your first year?', drill:'Name one skill, one project type, and one way you will practise.', lesson:'End with a specific, believable next step rather than a broad ambition.', answer:'Finish with a course-relevant next step: a skill to learn, a project to attempt, and how you will ask for feedback.'});
+      const weakAreas = [];
+      if (!has(profile,'motivation')) weakAreas.push('course motivation');
+      if (!has(profile,'project')) weakAreas.push('a project story');
+      if (!has(profile,'cca')) weakAreas.push('a people or leadership story');
+      if (!has(profile,'working')) weakAreas.push('reflection and growth');
+      return { profile, questions, weakAreas };
+    }
+
+    const tagForWeak = { 'course motivation': 'FIT', 'a project story': 'PROJECT', 'a people or leadership story': 'STORY', 'reflection and growth': 'STORY' };
+
+    function renderPlan(plan) {
+      const { profile, questions, weakAreas } = plan;
+      const focusTags = [...new Set(weakAreas.map(area => tagForWeak[area]).filter(Boolean))];
+      const focusQuestions = questions.filter(item => focusTags.includes(item.tag));
+      const round2 = (focusQuestions.length ? focusQuestions : questions.slice(-2)).slice(0, 3);
+      $('empty').classList.add('hidden'); $('result').classList.remove('hidden');
+      $('result').innerHTML = `<div class="fade-in rounded-xl bg-[#17201e] p-6 text-white shadow-[4px_4px_0_#f4c95d]"><div class="flex items-start justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-widest text-[#f4c95d]">Personalised plan</p><h3 class="display mt-2 text-3xl font-bold">${escapeHtml(profile.name)}</h3><p class="mt-1 text-sm text-white/65">${escapeHtml(profile.course)}${profile.school ? ` · ${escapeHtml(profile.school)}` : ''}</p></div><i data-lucide="target" class="h-7 w-7 text-[#ef6f51]"></i></div><div class="mt-6 grid grid-cols-3 gap-2 text-center"><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">${questions.length}</strong><span class="text-[11px] text-white/60">questions</span></div><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">3</strong><span class="text-[11px] text-white/60">practice rounds</span></div><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">${weakAreas.length}</strong><span class="text-[11px] text-white/60">gaps to fill</span></div></div></div>
+      ${weakAreas.length ? `<div class="fade-in rounded-xl border border-[#ef6f51]/35 bg-[#fff2ed] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Instructor note</p><p class="mt-2 text-sm leading-6">Before rehearsal, collect a concrete example for <strong>${escapeHtml(weakAreas.join(', '))}</strong>. The plan can still run, but those answers will be thinner.</p></div>` : ''}
+      <div class="fade-in rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Question deck</p><h3 class="display mt-1 text-xl font-bold">Say it, then sharpen it</h3></div><button id="export" class="flex items-center gap-2 rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5"><i data-lucide="download" class="h-4 w-4"></i> Export HTML</button></div><div class="mt-4 space-y-3">${questions.map((item,index) => `<article class="question rounded-r-lg bg-[#faf9f5] p-4"><div class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-xs font-bold">${index+1}</span><div><span class="text-[10px] font-bold uppercase tracking-widest text-[#ef6f51]">${item.tag}</span><h4 class="mt-1 font-bold leading-6">${escapeHtml(item.q)}</h4><p class="mt-2 text-xs leading-5 text-black/60"><strong>Drill:</strong> ${escapeHtml(item.drill)} <strong class="ml-1">Lesson:</strong> ${escapeHtml(item.lesson)}</p><details class="mt-3 text-xs"><summary class="cursor-pointer font-bold text-[#1f7770]">View answer guide</summary><p class="mt-2 leading-5 text-black/65">${escapeHtml(item.answer)}</p></details></div></div></article>`).join('')}</div></div>
+      <div class="fade-in rounded-xl border border-black/10 bg-[#17201e] p-5 text-white"><p class="text-xs font-bold uppercase tracking-widest text-[#f4c95d]">Personalised runsheet for ${escapeHtml(profile.name)}</p><h3 class="display mt-1 text-xl font-bold">Today's rehearsal, step by step</h3><ol class="mt-4 space-y-3 text-sm leading-6"><li><strong>1 · Warm-up (5 min):</strong> Time the elevator pitch cold, no notes. <span class="text-white/60">Watch for: fluency without reading.</span></li><li><strong>2 · Round 1 — untimed (~${questions.length * 2} min):</strong> Ask all ${questions.length} questions in the deck below, in order, using the Answer Lab worksheets in Tab B as reference only.</li><li><strong>3 · Round 2 — focused redo (10 min):</strong> Re-ask: ${round2.map(item => `"${escapeHtml(item.q)}"`).join('; ')}.${weakAreas.length ? ` Flagged because notes on <strong>${escapeHtml(weakAreas.join(', '))}</strong> are still thin — push for one new concrete detail on each.` : ''}</li><li><strong>4 · Round 3 — panel simulation (10 min):</strong> Random order, unscripted follow-ups, strict 60-second limit, no reading.</li><li><strong>5 · Wrap-up (5 min):</strong> Student names one strength and one fix; instructor assigns the thin area(s) as homework before the next session.</li></ol></div>`;
+      lucide.createIcons(); $('export').addEventListener('click', () => exportStudentHtml(plan));
+    }
+
+    function exportStudentHtml(plan) {
+      const { profile, questions } = plan;
+      const cards = questions.map((item,index) => `<article><small>${index+1} · ${escapeHtml(item.tag)}</small><h2>${escapeHtml(item.q)}</h2><p><b>Practice drill:</b> ${escapeHtml(item.drill)}</p><p><b>Remember:</b> ${escapeHtml(item.lesson)}</p></article>`).join('');
+      const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeHtml(profile.name)} - Interview Practice</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#17201e;line-height:1.6}header{background:#17201e;color:white;padding:28px;border-radius:12px}h1{margin:0}article{border-left:4px solid #ef6f51;background:#faf9f5;margin:18px 0;padding:18px;border-radius:0 8px 8px 0}small{color:#ef6f51;font-weight:bold;letter-spacing:.12em}h2{font-size:19px;margin:6px 0 12px}p{font-size:14px}</style></head><body><header><small>INTERVIEW PRACTICE</small><h1>${escapeHtml(profile.name)}</h1><p>${escapeHtml(profile.course)}${profile.school ? ` · ${escapeHtml(profile.school)}` : ''}</p></header><h2>How to use this</h2><p>Say each answer out loud. Keep the story honest, specific, and easy to follow. Practise the drills after each question.</p>${cards}<p>Prepared with Interview Studio · EAE / EAS Singapore</p></body></html>`;
+      const blob = new Blob([html], {type:'text/html'}); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${profile.name.replace(/[^a-z0-9]+/gi,'-').toLowerCase() || 'student'}-interview-practice.html`; link.click(); URL.revokeObjectURL(link.href);
+    }
+
+    $('settingsButton').addEventListener('click', () => $('settingsPanel').classList.remove('hidden'));
+    $('closeSettings').addEventListener('click', () => $('settingsPanel').classList.add('hidden'));
+    $('settingsPanel').addEventListener('click', event => { if (event.target === $('settingsPanel')) $('settingsPanel').classList.add('hidden'); });
+    $('saveSettings').addEventListener('click', () => { localStorage.setItem('eaeStudioSettings', JSON.stringify({system: $('systemPrompt').value.trim() || defaultSettings.system, coaching: $('coachingPrompt').value.trim() || defaultSettings.coaching})); $('settingsPanel').classList.add('hidden'); });
+    $('resetSettings').addEventListener('click', () => { $('systemPrompt').value = defaultSettings.system; $('coachingPrompt').value = defaultSettings.coaching; });
+    $('labPovToggle').addEventListener('click', () => { labPov = labPov === 'interview' ? 'portfolio' : 'interview'; $('labPovToggle').querySelector('span').textContent = labPov === 'interview' ? 'Voice: Interview' : 'Voice: Portfolio'; if (latestPlan) renderAnswerLab(latestPlan); });
+    $('generate').addEventListener('click', () => { latestPlan = buildPlan(getProfile()); renderPlan(latestPlan); renderAnswerLab(latestPlan); showTab('library'); });
+    $('aiGenerate').addEventListener('click', async () => {
+      const enteredKey = $('apiKey').value.trim(); if (enteredKey) { localStorage.setItem('eaeStudioApiKey', enteredKey); $('apiKey').value = ''; $('keyStatus').classList.remove('hidden'); } const key = enteredKey || savedKey(); if (!key && $('provider').value !== 'ollama') { $('aiStatus').textContent = 'Add an API key first, or use the local generator.'; $('aiStatus').className = 'mt-3 text-xs font-semibold text-[#ef6f51]'; return; }
+      const profile = getProfile(); const status = $('aiStatus'); status.textContent = 'Generating coaching notes...'; status.className = 'mt-3 text-xs font-semibold text-[#1f7770]';
+      try { const settings = getSettings(); const model = $('modelCustom').value.trim() || $('model').value; const response = await fetch($('apiEndpoint').value.trim(), {method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`}, body:JSON.stringify({model,temperature:.4,messages:[{role:'system',content:settings.system},{role:'user',content:`${settings.coaching}\n\nStudent profile:\n${JSON.stringify(profile)}`}]} )}); if (!response.ok) throw new Error(`Request failed (${response.status})`); const data = await response.json(); const notes = data.choices?.[0]?.message?.content || 'No coaching notes returned.'; latestPlan = buildPlan(profile); renderPlan(latestPlan); renderAnswerLab(latestPlan); $('result').insertAdjacentHTML('afterbegin', `<div class="fade-in rounded-xl border border-[#1f7770]/30 bg-[#e8f4ef] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">AI coaching notes · ${escapeHtml(model)}</p><p class="mt-3 whitespace-pre-line text-sm leading-6">${escapeHtml(notes)}</p></div>`); status.textContent = 'AI notes added to the local plan.'; } catch (error) { status.textContent = `${error.message}. The local generator is still available.`; status.className = 'mt-3 text-xs font-semibold text-[#ef6f51]'; }
+    });
+  </script>
+</body>
+</html>
