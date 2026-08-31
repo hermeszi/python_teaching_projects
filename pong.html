@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day/Night Pong Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #111;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        h1 { margin: 5px 0 15px 0; font-size: 1.4rem; }
+        
+        /* Control Panel Layout */
+        .setup-panel {
+            background: #1e1e24;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            max-width: 900px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        .control-group label {
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .control-group input[type="range"] {
+            width: 110px;
+        }
+        .btn-restart {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-restart:hover { 
+            background-color: #555; 
+            border-color: #888;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .score-item {
+            padding: 4px 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .day-score { background-color: #ffffff; color: #111; }
+        .night-score { background-color: #1e1e24; color: #fff; border: 1px solid #333; }
+
+        .canvas-container {
+            max-width: 100%;
+            max-height: 60vh;
+            overflow: auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #000;
+        }
+        canvas { display: block; }
+        .controls { margin-top: 10px; font-size: 0.8rem; color: #888; }
+    </style>
+</head>
+<body>
+
+    <h1>Day & Night Pong</h1>
+    
+    <div class="setup-panel">
+        <div class="control-group">
+            <label>Width: <span id="widthVal">800</span>px</label>
+            <input type="range" id="fieldWidth" min="400" max="1200" step="50" value="800">
+        </div>
+        <div class="control-group">
+            <label>Height: <span id="heightVal">500</span>px</label>
+            <input type="range" id="fieldHeight" min="300" max="800" step="50" value="500">
+        </div>
+        <div class="control-group">
+            <label>Square Size: <span id="sizeVal">10</span>px</label>
+            <input type="range" id="fieldCellSize" min="5" max="25" step="1" value="10">
+        </div>
+        <button class="btn-restart" id="applyBtn">Apply & Restart</button>
+    </div>
+
+    <div class="scoreboard">
+        <div class="score-item day-score">Day (White): <span id="dayCount">0</span></div>
+        <div class="score-item night-score">Night (Black): <span id="nightCount">0</span></div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="pongCanvas" width="800" height="500"></canvas>
+    </div>
+    
+    <div class="controls">Press <strong>Spacebar</strong> to Pause / Resume</div>
+
+    <script>
+        const canvas = document.getElementById('pongCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // UI Element Selectors
+        const dayCountEl = document.getElementById('dayCount');
+        const nightCountEl = document.getElementById('nightCount');
+        const widthInput = document.getElementById('fieldWidth');
+        const heightInput = document.getElementById('fieldHeight');
+        const cellSizeInput = document.getElementById('fieldCellSize');
+        const applyBtn = document.getElementById('applyBtn');
+
+        const widthVal = document.getElementById('widthVal');
+        const heightVal = document.getElementById('heightVal');
+        const sizeVal = document.getElementById('sizeVal');
+
+        // Dynamic Global Simulation Variables
+        let cellSize, cols, rows, grid, balls, isPaused = false;
+        let daySquares = 0, nightSquares = 0;
+
+        // Sync slider labels dynamically on move
+        widthInput.addEventListener('input', () => widthVal.textContent = widthInput.value);
+        heightInput.addEventListener('input', () => heightVal.textContent = heightInput.value);
+        cellSizeInput.addEventListener('input', () => sizeVal.textContent = cellSizeInput.value);
+
+        function initializeSimulation() {
+            canvas.width = parseInt(widthInput.value);
+            canvas.height = parseInt(heightInput.value);
+            cellSize = parseInt(cellSizeInput.value);
+            
+            cols = Math.floor(canvas.width / cellSize);
+            rows = Math.floor(canvas.height / cellSize);
+
+            daySquares = 0;
+            nightSquares = 0;
+
+            // Generate zigzag boundary
+            const midX = cols / 2;
+            const boundaryPoints = [];
+            let currentDivider = midX;
+
+            for (let y = 0; y < rows; y++) {
+                if (y === 0 || Math.random() < 0.35) {
+                    currentDivider += (Math.random() > 0.5 ? 2 : -2);
+                    currentDivider = Math.max(midX - Math.floor(cols * 0.15), Math.min(midX + Math.floor(cols * 0.15), currentDivider));
+                }
+                boundaryPoints[y] = Math.floor(currentDivider);
+            }
+
+            // Populate grid
+            grid = [];
+            for (let x = 0; x < cols; x++) {
+                grid[x] = [];
+                for (let y = 0; y < rows; y++) {
+                    if (x < boundaryPoints[y]) {
+                        grid[x][y] = 1;
+                        daySquares++;
+                    } else {
+                        grid[x][y] = 0;
+                        nightSquares++;
+                    }
+                }
+            }
+
+            // Ball definitions
+            balls = [
+                { 
+                    x: canvas.width * 0.75, 
+                    y: canvas.height * 0.5, 
+                    vx: -7, 
+                    vy: 5, 
+                    radius: 8, 
+                    targetColor: 0, 
+                    fillColor: '#1e1e24', 
+                    strokeColor: '#ffffff' 
+                },
+                { 
+                    x: canvas.width * 0.25, 
+                    y: canvas.height * 0.5, 
+                    vx: 7, 
+                    vy: -5, 
+                    radius: 8, 
+                    targetColor: 1, 
+                    fillColor: '#ffffff', 
+                    strokeColor: '#1e1e24' 
+                }
+            ];
+
+            dayCountEl.textContent = daySquares;
+            nightCountEl.textContent = nightSquares;
+        }
+
+        function update() {
+            if (isPaused) return;
+
+            balls.forEach(ball => {
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                // Border Collisions
+                if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) ball.vx *= -1;
+                if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) ball.vy *= -1;
+
+                ball.x = Math.max(ball.radius, Math.min(canvas.width - ball.radius, ball.x));
+                ball.y = Math.max(ball.radius, Math.min(canvas.height - ball.radius, ball.y));
+
+                const gridX = Math.floor(ball.x / cellSize);
+                const gridY = Math.floor(ball.y / cellSize);
+
+                if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
+                    if (grid[gridX][gridY] !== ball.targetColor) {
+                        
+                        const offsets = [
+                            {dx: 0, dy: 0},
+                            {dx: 1, dy: 0},
+                            {dx: -1, dy: 0},
+                            {dx: 0, dy: 1},
+                            {dx: 0, dy: -1}
+                        ];
+
+                        offsets.forEach(offset => {
+                            const cx = gridX + offset.dx;
+                            const cy = gridY + offset.dy;
+
+                            if (cx >= 0 && cx < cols && cy >= 0 && cy < rows) {
+                                if (grid[cx][cy] !== ball.targetColor) {
+                                    grid[cx][cy] = ball.targetColor;
+                                    if (ball.targetColor === 1) {
+                                        daySquares++;
+                                        nightSquares--;
+                                    } else {
+                                        nightSquares++;
+                                        daySquares--;
+                                    }
+                                }
+                            }
+                        });
+
+                        // Physics reflections
+                        ball.vx *= -1;
+                        ball.vy *= -1;
+
+                        ball.vx += (Math.random() - 0.5) * 1.5;
+                        ball.vy += (Math.random() - 0.5) * 1.5;
+
+                        const currentSpeed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                        const targetSpeed = 8.6;
+                        ball.vx = (ball.vx / currentSpeed) * targetSpeed;
+                        ball.vy = (ball.vy / currentSpeed) * targetSpeed;
+                    }
+                }
+            });
+
+            dayCountEl.textContent = daySquares;
+            nightCountEl.textContent = nightSquares;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Render grid
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    ctx.fillStyle = grid[x][y] === 1 ? '#ffffff' : '#1e1e24';
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+
+            // Render balls
+            balls.forEach(ball => {
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fillStyle = ball.fillColor;
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = ball.strokeColor;
+                ctx.stroke();
+                ctx.closePath();
+            });
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        // Event listeners
+        applyBtn.addEventListener('click', initializeSimulation);
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                isPaused = !isPaused;
+                e.preventDefault();
+            }
+        });
+
+        // Start
+        initializeSimulation();
+        loop();
+    </script>
+</body>
+</html>
