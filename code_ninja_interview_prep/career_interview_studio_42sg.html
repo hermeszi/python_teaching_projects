@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Interview Studio | 42 Singapore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    :root { --ink: #17201e; --paper: #f5f3ed; --coral: #ef6f51; --teal: #1f7770; --yellow: #f4c95d; }
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
+    h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+    .noise { background-image: radial-gradient(rgba(23,32,30,.08) .7px, transparent .7px); background-size: 8px 8px; }
+    .field { width: 100%; border: 1px solid #d6d8d0; background: rgba(255,255,255,.82); border-radius: 8px; padding: 11px 12px; outline: none; transition: border .2s, box-shadow .2s; }
+    .field:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(31,119,112,.12); }
+    .check { accent-color: var(--teal); }
+    .question { border-left: 3px solid var(--coral); }
+    .fade-in { animation: rise .45s ease both; }
+    .tab-button { border: 1px solid transparent; transition: all .2s ease; }
+    .tab-button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); box-shadow: 3px 3px 0 var(--yellow); }
+    .tab-panel { animation: rise .3s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media print { .no-print { display: none !important; } body { background: white; } .print-area { display: block !important; } }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="no-print border-b border-black/10 bg-[#17201e] text-[#f5f3ed]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5">
+      <div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-lg bg-[#f4c95d] text-[#17201e]"><i data-lucide="compass" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-[.18em] text-[#f4c95d]">Code Ninja</p><h1 class="display text-xl font-bold">Career Interview Studio</h1></div></div>
+      <div class="flex items-center gap-3"><span id="autosaveStatus" class="hidden text-[10px] font-semibold text-white/40 sm:inline"></span><button id="settingsButton" class="flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2 text-xs font-bold text-white/80 hover:bg-white/10"><i data-lucide="settings" class="h-4 w-4"></i><span>Settings</span></button><div class="hidden text-right text-xs text-white/60 sm:block">42 Singapore preparation<br>Prepared by Mingde</div></div>
+    </div>
+  </header>
+
+  <main class="no-print mx-auto max-w-6xl px-5 py-8">
+    <div class="mb-8 max-w-2xl"><p class="mb-2 text-sm font-bold uppercase tracking-[.16em] text-[#1f7770]">A three-part interview studio for career changers</p><h2 class="display text-4xl font-bold leading-tight sm:text-5xl">Own your pivot. Prove your skills. Practise the questions.</h2><p class="mt-4 max-w-xl text-base leading-7 text-black/65">Move from a candidate's real background — before and during 42 — to sharp, confident answers for internship and full-time interviews alike. Built for candidates aged 20 to 60 making a real career change.</p></div>
+
+    <nav class="mb-6 rounded-xl border border-black/10 bg-white p-4 sm:p-5" aria-label="Studio sections">
+      <p class="mb-3 text-xs font-bold uppercase tracking-widest text-[#1f7770]">Coaching roadmap · click a stage to jump in</p>
+      <div class="grid gap-2 sm:grid-cols-3">
+        <button class="tab-button rounded-lg border border-black/10 bg-[#faf9f5] p-3 text-left" data-tab="profile" aria-selected="true"><div class="flex items-center gap-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-xs font-bold">1</span><strong class="display text-base">Your Background &amp; Projects</strong></div><p class="mt-2 text-xs leading-5 text-black/60">Fill in the brief, map your career pivot, generate a plan.</p></button>
+        <button class="tab-button rounded-lg border border-black/10 bg-[#faf9f5] p-3 text-left" data-tab="library" aria-selected="false"><div class="flex items-center gap-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-xs font-bold">2</span><strong class="display text-base">Interview Frameworks</strong></div><p class="mt-2 text-xs leading-5 text-black/60">Shape your pivot and projects into strong, structured answers.</p></button>
+        <button class="tab-button rounded-lg border border-black/10 bg-[#faf9f5] p-3 text-left" data-tab="practice" aria-selected="false"><div class="flex items-center gap-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-xs font-bold">3</span><strong class="display text-base">Mock Interview Practice</strong></div><p class="mt-2 text-xs leading-5 text-black/60">Rehearse the full interview, score it, reflect.</p></button>
+      </div>
+    </nav>
+
+    <div id="tab-profile" class="tab-panel grid gap-6 lg:grid-cols-[1.05fr_.95fr]"></div>
+    <div id="tab-library" class="tab-panel hidden space-y-6"></div>
+    <div id="tab-practice" class="tab-panel hidden space-y-6"></div>
+
+    <div id="source-layout" class="hidden grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
+      <section class="rounded-xl border border-black/10 bg-white p-5 shadow-[4px_4px_0_#d8d5ca] sm:p-7">
+        <div class="mb-6 flex items-center justify-between border-b border-black/10 pb-4"><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">01 / Candidate brief</p><h3 class="display mt-1 text-2xl font-bold">Tell us who they are</h3></div><i data-lucide="notebook-pen" class="h-6 w-6 text-[#1f7770]"></i></div>
+        <div class="mb-5 flex flex-wrap items-center gap-2 rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="mr-auto text-xs leading-5 text-black/55">Typing here autosaves to this browser. To move a candidate to another device, save a candidate file and load it back in there.</p><input type="file" id="loadFileInput" accept=".html" class="hidden"><button id="loadStudentFile" type="button" class="rounded-lg border border-black/15 bg-white px-3 py-1.5 text-xs font-bold hover:bg-black/5">Load candidate file</button><button id="newStudent" type="button" class="rounded-lg border border-black/15 bg-white px-3 py-1.5 text-xs font-bold hover:bg-black/5">New candidate</button></div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="text-sm font-semibold">Candidate name<input id="name" class="field mt-2" placeholder="e.g. Ravi Kumar"></label>
+          <label class="text-sm font-semibold">Prior role / industry<input id="background" class="field mt-2" placeholder="e.g. 8 years in accounting, ex-SAF regular, hospitality manager"></label>
+          <label class="text-sm font-semibold">Target role &amp; company<input id="targetRole" class="field mt-2" placeholder="e.g. Backend Engineering Internship at Acme Pte Ltd"></label>
+          <label class="text-sm font-semibold">Interview date<input id="date" type="date" class="field mt-2"></label>
+          <label class="text-sm font-semibold">Age (optional)<input id="age" type="number" min="18" max="70" class="field mt-2" placeholder="e.g. 34 — used only to tailor coaching, never written into an answer"></label>
+          <label class="text-sm font-semibold">Pronouns for written text (optional)<input id="pronouns" class="field mt-2" placeholder="e.g. she/her — defaults to they/them"></label>
+        </div>
+        <div class="mt-5 space-y-4">
+          <label class="block text-sm font-semibold">Why this career change?<textarea id="motivation" class="field mt-2 min-h-24" placeholder="What made them leave their old field? What pulled them toward tech specifically?"></textarea></label>
+          <label class="block text-sm font-semibold">42 journey &amp; technical experience<textarea id="journey" class="field mt-2 min-h-20" placeholder="Piscine, Common Core progress and project names (e.g. libft, get_next_line, philosophers, minishell), languages/tools, peer-learning highlights"></textarea></label>
+          <label class="block text-sm font-semibold">Peer collaboration &amp; leadership<textarea id="collaboration" class="field mt-2 min-h-20" placeholder="Peer code reviews, mentoring, group projects (e.g. ft_transcendence), volunteer or prior-career leadership"></textarea></label>
+          <label class="block text-sm font-semibold">Achievements they are proud of<textarea id="achievements" class="field mt-2 min-h-20" placeholder="Certifications, projects shipped, milestones at 42 or before, awards"></textarea></label>
+          <label class="block text-sm font-semibold">Prior work experience &amp; transferable skills<textarea id="priorExperience" class="field mt-2 min-h-20" placeholder="Responsibilities and skills that carry over: project management, client handling, problem-solving under pressure, domain expertise, etc."></textarea></label>
+          <label class="block text-sm font-semibold">Favourite project deep dive<textarea id="project" class="field mt-2 min-h-28" placeholder="e.g. minishell, cub3d, ft_transcendence, or a personal project — name, goal, how it works, hardest problem, memorable bug and result"></textarea></label>
+          <div class="rounded-lg border border-[#1f7770]/20 bg-[#e8f4ef] p-4">
+            <div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Project shelf · optional</p><p class="mt-1 text-sm leading-5 text-black/65">Add other 42 or personal projects — each one becomes its own interview question.</p></div><i data-lucide="folder-plus" class="h-5 w-5 shrink-0 text-[#1f7770]"></i></div>
+            <div class="mt-3 grid gap-2 sm:grid-cols-[.8fr_1.2fr_auto]"><input id="projectName" class="field" placeholder="e.g. minishell"><input id="projectNote" class="field" placeholder="e.g. Built piping, redirection and signal handling from scratch"><button id="addProject" type="button" class="flex items-center justify-center gap-1 rounded-lg bg-[#1f7770] px-3 py-2 text-sm font-bold text-white hover:bg-[#175f59]" aria-label="Add project"><i data-lucide="plus" class="h-4 w-4"></i><span>Add</span></button></div>
+            <div id="projectList" class="mt-3 space-y-2"></div>
+          </div>
+          <label class="block text-sm font-semibold">Working style and growth edge<textarea id="working" class="field mt-2 min-h-20" placeholder="How do they handle feedback, pressure, ambiguity and change? What's still developing?"></textarea></label>
+          <label class="block text-sm font-semibold">Other information<textarea id="other" class="field mt-2 min-h-20" placeholder="Anything else worth knowing: languages, notice period, availability, relocation, personal interests, etc."></textarea></label>
+        </div>
+        <div class="mt-6 border-t border-black/10 pt-5"><p class="mb-3 text-sm font-semibold">Generate emphasis</p><div class="grid gap-2 sm:grid-cols-2"><label class="flex items-center gap-2 text-sm"><input class="check focus:ring-0" type="checkbox" name="focus" value="motivation" checked> Motivation &amp; fit</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="project" checked> Project explanation</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="behavioral" checked> Behavioural stories</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="pivot" checked> Career-change story</label><label class="flex items-center gap-2 text-sm"><input class="check" type="checkbox" name="focus" value="technical"> Technical depth</label></div></div>
+        <button id="generate" class="mt-7 flex w-full items-center justify-center gap-2 rounded-lg bg-[#ef6f51] px-5 py-3.5 font-bold text-white transition hover:bg-[#d95b40]"><i data-lucide="sparkles" class="h-4 w-4"></i> Generate plan (local, no AI)</button>
+      </section>
+
+      <section class="space-y-6">
+        <div class="rounded-xl border border-black/10 bg-[#dcebe5] p-5 sm:p-7"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">02 / AI provider &amp; API key</p><h3 class="display mt-1 text-2xl font-bold">Choose your engine</h3></div><i data-lucide="key-round" class="h-6 w-6 text-[#1f7770]"></i></div><p class="mt-3 text-sm leading-6 text-black/65">Optional. The button below builds the whole plan itself, then adds AI coaching notes on top — you do not need to click "Generate plan (local, no AI)" first. Keys are saved locally in this browser and never displayed once saved.</p><label class="mt-4 block text-sm font-semibold">AI provider<select id="provider" class="field mt-2"><option value="openrouter">OpenRouter · many models, one key</option><option value="openai">OpenAI</option><option value="groq">Groq</option><option value="together">Together AI</option><option value="custom">Custom OpenAI-compatible</option></select></label><label class="mt-3 block text-sm font-semibold">API endpoint URL<input id="apiEndpoint" class="field mt-2" value="https://openrouter.ai/api/v1/chat/completions"></label><label class="mt-3 block text-sm font-semibold">API key<input id="apiKey" type="password" class="field mt-2" placeholder="Leave blank to keep the saved key"></label><p id="keyStatus" class="mt-2 hidden text-xs font-semibold text-[#1f7770]">✓ API key is saved (hidden for security)</p><label class="mt-3 block text-sm font-semibold">AI model<select id="model" class="field mt-2"></select></label><div class="mt-4 grid gap-3 sm:grid-cols-[1fr_auto]"><input id="modelCustom" class="field" placeholder="Or type any model name"><button id="aiGenerate" class="rounded-lg bg-[#17201e] px-4 py-2 text-sm font-bold text-white hover:bg-black">Generate plan + AI notes</button></div><p class="mt-3 text-xs text-black/55">Not sure? OpenRouter is easiest. Get a key at <a class="font-bold underline" href="https://openrouter.ai/keys" target="_blank" rel="noreferrer">openrouter.ai/keys</a>.</p><p id="aiStatus" class="mt-3 hidden text-xs font-semibold"></p></div>
+        <div class="rounded-xl border border-black/10 bg-white p-5">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#f4c95d]"><i data-lucide="book-open-check" class="h-5 w-5"></i></div>
+              <div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Personalised answer lab</p><h3 class="display text-xl font-bold">Framework worksheets</h3></div>
+            </div>
+            <button id="labPovToggle" type="button" class="flex shrink-0 items-center gap-2 rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5"><i data-lucide="repeat" class="h-3.5 w-3.5"></i><span>Voice: Interview</span></button>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-black/65">Generated from this candidate's own notes in Tab 1 — not from a template story. Toggle the voice to switch between rehearsing it aloud and writing it up for a resume summary or LinkedIn-style pitch. These are coaching worksheets, not scripts: adapt the wording, never memorise a fictional story.</p>
+          <div class="mt-3 flex flex-wrap items-center gap-2"><button id="suggestAllAnswers" type="button" class="flex items-center gap-2 rounded-lg bg-[#17201e] px-3 py-2 text-xs font-bold text-white hover:bg-black"><i data-lucide="sparkles" class="h-3.5 w-3.5"></i><span>Suggest all answers with AI</span></button><span id="suggestAllStatus" class="text-[11px] font-semibold text-black/45"></span></div>
+          <div id="answerLabEmpty" class="mt-4 rounded-lg border border-dashed border-black/20 p-6 text-center text-sm text-black/50">Fill in the candidate brief and click either "Generate" button to build personalised worksheets here.</div>
+          <div id="answerLabContent" class="mt-4 hidden space-y-4"></div>
+        </div>
+        <div id="empty" class="noise rounded-xl border border-dashed border-black/20 p-8 text-center"><div class="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#f4c95d]"><i data-lucide="route" class="h-5 w-5"></i></div><h3 class="display mt-4 text-xl font-bold">Your plan will appear here</h3><p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-black/60">Fill in enough of the candidate's background to make the questions sound like them, not a generic worksheet.</p></div>
+        <div id="result" class="hidden space-y-5"></div>
+      </section>
+    </div>
+  </main>
+
+  <section id="printArea" class="print-area mx-auto hidden max-w-4xl px-5 py-8"></section>
+  <section id="settingsPanel" class="no-print fixed inset-0 z-50 hidden bg-black/40 p-5"><div class="mx-auto mt-8 max-w-2xl rounded-xl border border-black/10 bg-[#f5f3ed] p-6 shadow-2xl sm:p-8"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Studio settings</p><h2 class="display mt-1 text-3xl font-bold">Prompts &amp; defaults</h2></div><button id="closeSettings" class="rounded-lg p-2 hover:bg-black/10" aria-label="Close settings"><i data-lucide="x" class="h-5 w-5"></i></button></div><p class="mt-3 text-sm leading-6 text-black/65">These instructions shape the optional AI layer. Keep them specific to your coaching approach; candidate facts are added automatically for each plan.</p><label class="mt-5 block text-sm font-semibold">System prompt<textarea id="systemPrompt" class="field mt-2 min-h-32"></textarea></label><label class="mt-4 block text-sm font-semibold">Coaching prompt<textarea id="coachingPrompt" class="field mt-2 min-h-32"></textarea></label><div class="mt-5 flex justify-end gap-3"><button id="resetSettings" class="rounded-lg border border-black/15 px-4 py-2 text-sm font-bold hover:bg-black/5">Reset prompts</button><button id="saveSettings" class="rounded-lg bg-[#17201e] px-4 py-2 text-sm font-bold text-white">Save settings</button></div></div></section>
+
+  <script>
+    lucide.createIcons();
+    const $ = id => document.getElementById(id);
+    const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    const providerDefaults = { openrouter: { endpoint: 'https://openrouter.ai/api/v1/chat/completions', models: ['openai/gpt-4o-mini','anthropic/claude-3.5-haiku','google/gemini-2.0-flash-001','meta-llama/llama-3.1-8b-instruct'] }, openai: { endpoint: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini','gpt-4.1-mini','gpt-4o'] }, gemini: { endpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', models: ['gemini-2.5-flash','gemini-2.5-pro','gemini-2.0-flash'] }, claude: { endpoint: 'https://openrouter.ai/api/v1/chat/completions', models: ['anthropic/claude-sonnet-4','anthropic/claude-3.7-sonnet','anthropic/claude-3.5-haiku'] }, groq: { endpoint: 'https://api.groq.com/openai/v1/chat/completions', models: ['llama-3.3-70b-versatile','openai/gpt-oss-20b','moonshotai/kimi-k2-instruct'] }, together: { endpoint: 'https://api.together.xyz/v1/chat/completions', models: ['meta-llama/Llama-3.3-70B-Instruct-Turbo','Qwen/Qwen2.5-72B-Instruct-Turbo'] }, ollama: { endpoint: 'http://localhost:11434/v1/chat/completions', models: ['llama3.2','qwen2.5','deepseek-r1'] }, custom: { endpoint: '', models: [] } };
+    const sourceLayout = $('source-layout');
+    const profileSource = sourceLayout.children[0];
+    const rightSource = sourceLayout.children[1];
+    const apiSource = rightSource.children[0];
+    const librarySource = rightSource.children[1];
+    const emptySource = rightSource.children[2];
+    const resultSource = rightSource.children[3];
+    $('tab-profile').append(profileSource, apiSource);
+    $('tab-library').append(librarySource, document.createRange().createContextualFragment(`<div class="rounded-xl border border-[#1f7770]/20 bg-[#e8f4ef] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Quick cheat sheet</p><div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5"><div><strong class="display text-lg">STAR</strong><p class="mt-1 text-xs leading-5 text-black/65">Situation, Task, Action, Result. Best for teamwork, leadership and setbacks.</p></div><div><strong class="display text-lg">OSCAR</strong><p class="mt-1 text-xs leading-5 text-black/65">Outcome, Situation, Challenge, Action, Result. Best for projects and problem-solving.</p></div><div><strong class="display text-lg">PREP</strong><p class="mt-1 text-xs leading-5 text-black/65">Point, Reason, Example, Point. Best for opinions and role-fit answers.</p></div><div><strong class="display text-lg">SBI</strong><p class="mt-1 text-xs leading-5 text-black/65">Situation, Behaviour, Impact. Best for reflection, growth and feedback answers.</p></div><div><strong class="display text-lg">PIVOT</strong><p class="mt-1 text-xs leading-5 text-black/65">Past, Insight, Value transfer, Outcome, Target. Best for the career-change story.</p></div></div><p class="mt-3 text-xs text-black/50">Teamwork &amp; leadership → STAR · Projects → OSCAR · Opinions &amp; role fit → PREP · Growth &amp; feedback → SBI · Career change → PIVOT</p></div>`));
+    $('tab-library').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#f4c95d]"><i data-lucide="lightbulb" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Thinking framework · do this first</p><h3 class="display text-xl font-bold">Story bank: find the material before you write</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Most weak answers aren't a structure problem — they're a "no story ready" problem. Before touching STAR, OSCAR, PREP, SBI or PIVOT, jot one real, specific memory under each heading below in your own words. A blank box here is exactly what to chase for in the Tab 1 brief before the next session.</p><div class="mt-4 grid gap-3 sm:grid-cols-2"><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Career pivot moment</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">The realisation or moment that pointed you toward tech.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Teamwork / peer collaboration</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">A time you worked with peers toward a shared goal — Piscine, a group project.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Leadership / mentoring</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">A time you led, mentored, or were responsible for something — before or during 42.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Mistake / feedback</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">A time you got something wrong — old job or code review — and changed because of it.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Achievement / pride</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">Something you built, shipped or finished that you're proud of.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-xs font-bold">Transferable skill</p><p class="mt-0.5 text-[11px] leading-4 text-black/55">A skill from your old career that you use in tech every week.</p><textarea class="field mt-2 min-h-14 text-xs"></textarea></div></div><p class="mt-3 text-xs text-black/50">Once every box has something in it, use it to fill in stronger notes in Tab 1, then shape the strongest stories using the framework worksheets and cheat sheet in this tab.</p></div>`));
+    $('tab-library').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#1f7770] text-white"><i data-lucide="library" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Works without any candidate profile</p><h3 class="display text-xl font-bold">General question bank</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">The generated deck in Mock Interview Practice only asks about what's in the Tab 1 brief. Use this bank for extra drilling, a second candidate, or a first session before any notes exist.</p><div class="mt-4 space-y-2"><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Career change &amp; motivation</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Why are you leaving your previous field for tech?</li><li>What was the moment you decided to make the switch?</li><li>What will you miss least — and most — about your old career?</li><li>Why 42, specifically, over a bootcamp or a degree?</li><li>Where do you see yourself in this field in three to five years?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Technical background &amp; 42 journey</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Walk us through the Piscine — what surprised you most?</li><li>What's the hardest project you've completed at 42, and why?</li><li>How does peer learning at 42 compare to how you learned in your old career?</li><li>What are you still actively working on improving, technically?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Prior experience &amp; what transfers</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>What from your previous job applies directly to this role?</li><li>How do you feel about reporting to a manager younger than you?</li><li>Tell us about managing a deadline or a difficult stakeholder in your old career.</li><li>What did leaving a stable career teach you about risk?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Teamwork &amp; behavioural</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Tell us about a disagreement with a peer during a group project.</li><li>Describe a time you had to ask for help — how did you approach it?</li><li>Tell us about giving or receiving tough code review feedback.</li><li>Describe a time you had to learn something completely new, fast.</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Practical &amp; logistics</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>What are your salary expectations for this role?</li><li>What's your availability or notice period?</li><li>Are you open to starting at an internship or junior level, given your prior seniority?</li><li>How do you plan to keep learning once you're on the job?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Closing questions</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Do you have any questions for us?</li><li>Is there anything about your background you'd like to explain further?</li><li>What would you like us to remember about you?</li></ul></details></div></div>`));
+    $('tab-library').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#1f7770] text-white"><i data-lucide="terminal" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Reference for the practice partner</p><h3 class="display text-xl font-bold">42 project deep-dive bank</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">An interviewer who's done their homework on 42 will probe a named project directly. Use these to go one level deeper than "walk me through it" on whichever projects this candidate lists in Tab 1.</p><div class="mt-4 space-y-2"><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Piscine</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>What was the hardest exercise in the Piscine, and how did you debug it?</li><li>How did you manage your time and energy during the Piscine month?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">libft, get_next_line &amp; ft_printf</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Which libft function was hardest to reimplement correctly, and why?</li><li>How does your get_next_line handle multiple file descriptors and buffering?</li><li>How did you handle variadic arguments and format specifiers in ft_printf?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">Born2beroot</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Walk us through your server setup — why that distro, and your partitioning choices?</li><li>What security hardening did you configure — sudo policy, firewall, password policy?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">minitalk &amp; Philosophers</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>How does your minitalk implementation use UNIX signals to transmit data?</li><li>How did you avoid deadlock and manage synchronisation in Philosophers?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">minishell</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>How did you implement piping and redirection?</li><li>How did you handle process forking and signal handling, like Ctrl-C?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">NetPractice, cub3d &amp; push_swap</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Walk us through how you'd approach subnetting a small office network.</li><li>How does your raycasting engine work, and how did you optimise rendering?</li><li>What algorithm did you use in push_swap, and how did you reduce the operation count?</li></ul></details><details class="rounded-lg border border-black/10 p-3"><summary class="cursor-pointer text-sm font-bold text-[#1f7770]">ft_transcendence</summary><ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-black/70"><li>Walk us through your team's architecture — frontend, backend, real-time layer.</li><li>How did you and your teammates split the work, and handle merge conflicts?</li></ul></details></div></div>`));
+    $('tab-library').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#ef6f51] text-white"><i data-lucide="shield" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Don't dodge these — reframe them</p><h3 class="display text-xl font-bold">Answering the tough questions</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Every mature career changer gets some version of these. Rehearsing the reframe, not just the answer, is what turns them from a trap into your strongest material.</p><div class="mt-4 space-y-3"><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-sm font-bold">"Why should we hire you over a fresh computer science graduate?"</p><p class="mt-1 text-xs leading-5 text-black/65"><strong>Reframe:</strong> You bring production-ready soft skills — communication, ownership, stakeholder handling — that a fresh grad is still learning on the job. Pair that claim with one concrete 42 project as proof the technical side is real too.</p></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-sm font-bold">"Isn't this a big pay cut / step down for you?"</p><p class="mt-1 text-xs leading-5 text-black/65"><strong>Reframe:</strong> Own it briefly, then pivot to why — "Yes, and it's a deliberate investment: I'm optimising for a long runway in a field I want to build a career in, not for matching my old salary immediately."</p></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-sm font-bold">"How do we know you won't just go back to your old field?"</p><p class="mt-1 text-xs leading-5 text-black/65"><strong>Reframe:</strong> Point to evidence of commitment already made — months of 42's demanding schedule, projects shipped, a peer community built. That's not a casual detour.</p></div><div class="rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-sm font-bold">"You don't have a CS degree — how will you keep up?"</p><p class="mt-1 text-xs leading-5 text-black/65"><strong>Reframe:</strong> 42's peer-learning, project-based model is the answer in itself — name one specific hard problem solved without a lecture, proof self-directed learning is already a demonstrated skill, not a hope.</p></div></div></div>`));
+    $('tab-library').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="grid gap-5 sm:grid-cols-2"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Spot the framework</p><p class="mt-1 text-sm leading-6 text-black/65">Match the phrasing of the question, not the topic, to pick the shape fast.</p><ul class="mt-3 space-y-2 text-xs leading-5 text-black/70"><li><strong>"Tell me about a time..." + a person</strong> → STAR</li><li><strong>"Walk us through..." + something built</strong> → OSCAR</li><li><strong>"Why..." or "What do you think..."</strong> → PREP</li><li><strong>"Tell me about a mistake / feedback..."</strong> → SBI</li><li><strong>"Why did you leave..." or "Why the switch..."</strong> → PIVOT</li></ul></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Coach out these habits</p><ul class="mt-3 space-y-2 text-xs leading-5 text-black/70"><li><strong>Stopping at one sentence</strong> → add one concrete detail, then stop.</li><li><strong>Listing achievements with no reflection</strong> → say what it taught you.</li><li><strong>Sounding apologetic about the career change</strong> → state it as a decision, not an excuse.</li><li><strong>Memorising the whole plan word for word</strong> → memorise only the pitch; know the shape of the rest.</li><li><strong>Filling silence with "um" / "like"</strong> → pause silently instead.</li></ul></div></div></div>`));
+    $('tab-practice').append(emptySource, resultSource);
+    $('tab-practice').append(document.createRange().createContextualFragment(`<div class="flex items-center gap-3 pt-2"><span class="h-px flex-1 bg-black/10"></span><p class="text-[11px] font-bold uppercase tracking-widest text-black/40">Coaching reference — practice blueprint, rubric &amp; journal</p><span class="h-px flex-1 bg-black/10"></span></div>`));
+    $('tab-practice').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#1f7770] text-white"><i data-lucide="clipboard-list" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Practice session blueprint · full detail for stage 3</p><h3 class="display text-xl font-bold">A 45-60 minute practice session</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Use this shape for every rehearsal, run with a peer, an alumni, or a career coach — 42 has no formal instructors, so this works best led by a practice partner. Generate a plan in Tab 1 to turn these steps into a runsheet built around this specific candidate, with real question text and weak areas filled in below.</p><ol class="mt-4 space-y-3">
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">1 · Setup</strong><span class="text-xs text-black/45">3 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Skim the profile and coaching note in the Answer Lab. Pick two questions to watch closely.</p><p><strong>Candidate:</strong> Has the Tab 2 worksheets open for reference, not to read from.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">2 · Warm-up pitch</strong><span class="text-xs text-black/45">5 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Time a 60-second "tell me about yourself" with zero interruptions.</p><p><strong>Candidate:</strong> Delivers the pitch once, cold, to set a baseline.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">3 · Framework walkthrough</strong><span class="text-xs text-black/45">8 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Open the Tab 2 worksheet matching today's weakest area and model one row aloud.</p><p><strong>Candidate:</strong> Fills in that row's "practice answer" line in their own words.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">4 · Round 1 — untimed</strong><span class="text-xs text-black/45">15 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Ask every question in the deck, in order, with no time pressure. Note vague or missing details.</p><p><strong>Candidate:</strong> Answers fully — thinking out loud is fine here.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">5 · Round 2 — focused redo</strong><span class="text-xs text-black/45">10 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Replay only the weakest 2-3 answers from Round 1 and ask one follow-up on each.</p><p><strong>Candidate:</strong> Adds one new concrete detail per answer — no starting from scratch.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">6 · Round 3 — panel simulation</strong><span class="text-xs text-black/45">10 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Ask in random order, add unscripted follow-ups — including one tough question — hold a strict 60-second limit, no notes allowed.</p><p><strong>Candidate:</strong> Answers as if this were the real panel.</p></div></li>
+      <li class="rounded-lg border border-black/10 p-3"><div class="flex items-center justify-between"><strong class="text-sm">7 · Wrap-up &amp; homework</strong><span class="text-xs text-black/45">5 min</span></div><div class="mt-1 grid gap-2 text-xs text-black/60 sm:grid-cols-2"><p><strong>Practice partner:</strong> Name one clear strength and one thing to fix before the next session.</p><p><strong>Candidate:</strong> Writes down the fix and one missing detail to gather before next time.</p></div></li>
+    </ol></div>`));
+    $('tab-practice').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#ef6f51] text-white"><i data-lucide="gauge" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Score it, don't just feel it</p><h3 class="display text-xl font-bold">Scoring rubric</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Use during Round 3 (panel simulation) or a dedicated review. Score 1-4 per answer; circling the same low number twice tells you exactly what to drill next.</p><div class="mt-4 overflow-x-auto"><table class="w-full min-w-[640px] border-collapse text-left text-xs"><thead><tr class="border-b border-black/10 text-black/50"><th class="py-2 pr-3 font-bold">Criteria</th><th class="px-3 py-2 font-bold">1 · Emerging</th><th class="px-3 py-2 font-bold">2 · Developing</th><th class="px-3 py-2 font-bold">3 · Proficient</th><th class="px-3 py-2 font-bold">4 · Strong</th></tr></thead><tbody class="divide-y divide-black/5"><tr><td class="py-2 pr-3 font-bold">Structure &amp; clarity</td><td class="px-3 py-2 text-black/60">Rambling, no clear shape</td><td class="px-3 py-2 text-black/60">Shape present but uneven</td><td class="px-3 py-2 text-black/60">Clear beginning, middle, end</td><td class="px-3 py-2 text-black/60">Framework applied naturally, on the fly</td></tr><tr><td class="py-2 pr-3 font-bold">Specific evidence</td><td class="px-3 py-2 text-black/60">Vague, generic claims</td><td class="px-3 py-2 text-black/60">One concrete detail</td><td class="px-3 py-2 text-black/60">Names, numbers, a real moment</td><td class="px-3 py-2 text-black/60">Vivid detail plus a clear result</td></tr><tr><td class="py-2 pr-3 font-bold">Confidence in career narrative</td><td class="px-3 py-2 text-black/60">Sounds apologetic or defensive</td><td class="px-3 py-2 text-black/60">States it but hedges</td><td class="px-3 py-2 text-black/60">Owns the decision plainly</td><td class="px-3 py-2 text-black/60">Reframes it as a clear asset, unprompted</td></tr><tr><td class="py-2 pr-3 font-bold">Delivery &amp; presence</td><td class="px-3 py-2 text-black/60">Reads notes, monotone</td><td class="px-3 py-2 text-black/60">Steadier, still hesitant</td><td class="px-3 py-2 text-black/60">Eye contact, steady pace</td><td class="px-3 py-2 text-black/60">Natural pauses, recovers smoothly from a curveball</td></tr></tbody></table></div></div>`));
+    $('tab-practice').append(document.createRange().createContextualFragment(`<div class="rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center gap-3"><div class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#f4c95d]"><i data-lucide="notebook" class="h-5 w-5"></i></div><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Five minutes, every session</p><h3 class="display text-xl font-bold">Reflection journal</h3></div></div><p class="mt-3 text-sm leading-6 text-black/65">Fill this in yourself at the end of each session — print it or type it here. The point is noticing your own progress, not anyone else's feedback.</p><div class="mt-4 grid gap-3"><label class="text-xs font-semibold">One question I answered well today, and why<textarea class="field mt-1 min-h-14 text-sm"></textarea></label><label class="text-xs font-semibold">One question I want to improve<textarea class="field mt-1 min-h-14 text-sm"></textarea></label><label class="text-xs font-semibold">A new detail to add to my story bank<textarea class="field mt-1 min-h-14 text-sm"></textarea></label><label class="text-xs font-semibold">My confidence today (1-5) and why<input class="field mt-1"></label><label class="text-xs font-semibold">Before my next practice session I will<textarea class="field mt-1 min-h-14 text-sm"></textarea></label></div></div>`));
+    lucide.createIcons();
+    const projects = [];
+    const renderProjects = () => { $('projectList').innerHTML = projects.length ? projects.map((item, index) => `<div class="flex items-center justify-between gap-3 rounded-lg bg-white/70 px-3 py-2 text-sm"><span><strong>${escapeHtml(item.name)}</strong><span class="ml-2 text-black/55">${escapeHtml(item.note)}</span></span><button type="button" class="remove-project text-xs font-bold text-[#ef6f51]" data-index="${index}">Remove</button></div>`).join('') : '<p class="text-xs italic text-black/50">No showcase projects added yet.</p>'; };
+    $('addProject').addEventListener('click', () => { const name = $('projectName').value.trim(); const note = $('projectNote').value.trim(); if (!name && !note) return; projects.push({name: name || 'Untitled project', note: note || 'No notes added'}); $('projectName').value = ''; $('projectNote').value = ''; renderProjects(); scheduleAutosave(); });
+    $('projectList').addEventListener('click', event => { if (event.target.matches('.remove-project')) { projects.splice(Number(event.target.dataset.index), 1); renderProjects(); scheduleAutosave(); } });
+    renderProjects();
+
+    const DRAFT_KEY = 'careerStudioDraft';
+    function serializeDraft() {
+      const answers = {}; document.querySelectorAll('[id^="practiceAnswer-"]').forEach(el => { answers[el.id] = el.value; });
+      return {
+        version: 1, savedAt: new Date().toISOString(),
+        profile: { name: $('name').value, background: $('background').value, targetRole: $('targetRole').value, date: $('date').value, age: $('age').value, pronouns: $('pronouns').value, motivation: $('motivation').value, journey: $('journey').value, collaboration: $('collaboration').value, achievements: $('achievements').value, priorExperience: $('priorExperience').value, project: $('project').value, working: $('working').value, other: $('other').value, projects: projects.slice(), focus: [...document.querySelectorAll('input[name="focus"]:checked')].map(input => input.value) },
+        provider: $('provider').value, model: $('model').value, modelCustom: $('modelCustom').value,
+        pitches: { lab: document.getElementById('labPitchText')?.value || '', result: document.getElementById('pitchText')?.value || '' },
+        answers
+      };
+    }
+    function applyDraft(draft) {
+      if (!draft || !draft.profile) return;
+      const p = draft.profile;
+      $('name').value = p.name || ''; $('background').value = p.background || ''; $('targetRole').value = p.targetRole || ''; $('date').value = p.date || ''; $('age').value = p.age || ''; $('pronouns').value = p.pronouns || '';
+      $('motivation').value = p.motivation || ''; $('journey').value = p.journey || ''; $('collaboration').value = p.collaboration || ''; $('achievements').value = p.achievements || ''; $('priorExperience').value = p.priorExperience || ''; $('project').value = p.project || '';
+      $('working').value = p.working || ''; $('other').value = p.other || '';
+      projects.length = 0; (p.projects || []).forEach(item => projects.push(item)); renderProjects();
+      const focusSet = new Set(p.focus || []);
+      document.querySelectorAll('input[name="focus"]').forEach(input => { input.checked = focusSet.has(input.value); });
+      if (draft.provider) { $('provider').value = draft.provider; updateModels(); }
+      if (draft.model) $('model').value = draft.model;
+      if (draft.modelCustom) $('modelCustom').value = draft.modelCustom;
+      const hasContent = Object.entries(p).some(([key, value]) => key !== 'focus' && (Array.isArray(value) ? value.length : String(value || '').trim()));
+      if (!hasContent) return;
+      latestPlan = buildPlan(getProfile()); renderPlan(latestPlan); renderAnswerLab(latestPlan);
+      if (draft.pitches?.lab) { const el = $('labPitchText'); el.value = draft.pitches.lab; el.dispatchEvent(new Event('input')); }
+      if (draft.pitches?.result) { const el = $('pitchText'); el.value = draft.pitches.result; el.dispatchEvent(new Event('input')); }
+      Object.entries(draft.answers || {}).forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.value = value; });
+    }
+    let autosaveTimer = null;
+    function scheduleAutosave() {
+      clearTimeout(autosaveTimer);
+      autosaveTimer = setTimeout(() => {
+        try {
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(serializeDraft()));
+          const status = $('autosaveStatus'); status.textContent = 'Draft saved · ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); status.classList.remove('hidden');
+        } catch (error) { /* storage unavailable or full — typing itself is unaffected */ }
+      }, 600);
+    }
+    document.addEventListener('input', event => { if (event.target.closest('#tab-profile, #tab-library, #tab-practice')) scheduleAutosave(); });
+    document.addEventListener('change', event => { if (event.target.matches('input[name="focus"]') || event.target.id === 'provider' || event.target.id === 'model') scheduleAutosave(); });
+    const showTab = tab => { document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('hidden', panel.id !== `tab-${tab}`)); document.querySelectorAll('.tab-button').forEach(button => button.setAttribute('aria-selected', String(button.dataset.tab === tab))); lucide.createIcons(); };
+    document.querySelectorAll('.tab-button').forEach(button => button.addEventListener('click', () => showTab(button.dataset.tab)));
+    $('provider').insertAdjacentHTML('beforeend', '<option value="gemini">Google Gemini</option><option value="claude">Anthropic Claude · via OpenRouter</option><option value="ollama">Ollama · local, no key</option>');
+    const defaultSettings = { system: 'You are an interview coach for adult career changers training at 42 Singapore, a project-based, peer-to-peer coding school for candidates aged 20 to 60 preparing for tech job and internship interviews. Your job is to help each candidate present their real background — including their prior career — as a genuine asset, not something to apologise for, while sounding confident, specific and professional. This tool already structures answers using the STAR, OSCAR, PREP, SBI and PIVOT frameworks — build on those, do not invent a new scheme. Write in clear, professional adult English suitable for a real hiring interview — no teaching-a-child tone, no unnecessary jargon. Return concise, grounded coaching notes based only on the facts given. Do not invent employers, projects, achievements or outcomes.', coaching: 'Using only the candidate facts provided, help this candidate leave the session more skilled and more confident, not just better rehearsed: (1) for each weak area listed, write one specific coaching question to help the candidate surface a missing detail in their own words; (2) name the single best-fit framework (STAR, OSCAR, PREP, SBI or PIVOT) for the candidate\'s strongest story and explain why in one sentence; (3) give one facilitation tip suited to peer-to-peer practice, since 42 has no formal instructors; (4) give one likely interviewer follow-up question — including, where relevant, a tough question about the career change — and what a strong, honest reply would cover. Write in clear, professional adult English. Keep the whole response under 200 words.' };
+    const getProfile = () => ({ name: $('name').value.trim() || 'This candidate', background: $('background').value.trim(), targetRole: $('targetRole').value.trim() || 'their target role', date: $('date').value, age: $('age').value.trim(), pronouns: $('pronouns').value.trim(), motivation: $('motivation').value.trim(), journey: $('journey').value.trim(), collaboration: $('collaboration').value.trim(), achievements: $('achievements').value.trim(), priorExperience: $('priorExperience').value.trim(), project: [$('project').value.trim(), ...projects.map(item => `${item.name}: ${item.note}`)].filter(Boolean).join('\n'), projects, working: $('working').value.trim(), other: $('other').value.trim(), focus: [...document.querySelectorAll('input[name="focus"]:checked')].map(input => input.value) });
+    const getSettings = () => JSON.parse(localStorage.getItem('careerStudioSettings') || JSON.stringify(defaultSettings));
+    const updateModels = () => { const config = providerDefaults[$('provider').value]; $('apiEndpoint').value = config.endpoint; $('model').innerHTML = config.models.map(model => `<option value="${model}">${model}</option>`).join('') || '<option value="">Custom model below</option>'; };
+    const savedKey = () => localStorage.getItem('careerStudioApiKey') || '';
+    updateModels(); $('provider').addEventListener('change', updateModels); if (savedKey()) $('keyStatus').classList.remove('hidden');
+    $('systemPrompt').value = getSettings().system; $('coachingPrompt').value = getSettings().coaching;
+    let latestPlan = null;
+    let latestCards = [];
+    let labPov = 'interview';
+    const has = (profile, key) => profile[key].length > 20;
+    const parsePronoun = value => { const key = (value || '').trim().toLowerCase(); if (key.startsWith('she')) return 'she'; if (key.startsWith('he')) return 'he'; return 'they'; };
+    const lowerFirst = value => (!value || /^I($|[^a-zA-Z])/.test(value)) ? value : value.charAt(0).toLowerCase() + value.slice(1);
+    const firstSentence = (text, maxLen = 140) => { const trimmed = (text || '').trim(); if (!trimmed) return ''; const match = trimmed.match(/^[^.!?\n]+[.!?]?/); let sentence = (match ? match[0] : trimmed).replace(/[.!?]+$/, '').trim(); if (sentence.length > maxLen) sentence = sentence.slice(0, maxLen).trim() + '…'; return sentence; };
+
+    function buildElevatorPitch(profile) {
+      const lines = [];
+      lines.push(`Hi, I'm ${profile.name}${profile.background ? `, previously ${lowerFirst(profile.background)}` : ''}.`);
+      const why = has(profile, 'motivation') ? firstSentence(profile.motivation) : '';
+      lines.push(why ? `I moved into tech because ${lowerFirst(why)}.` : `I'm now focused on building a career in tech.`);
+      const highlightSource = has(profile, 'project') ? profile.project : (has(profile, 'achievements') ? profile.achievements : '');
+      const highlight = firstSentence(highlightSource);
+      if (highlight) lines.push(`One thing I'm proud of is ${lowerFirst(highlight)}.`);
+      const transfer = has(profile, 'priorExperience') ? firstSentence(profile.priorExperience) : '';
+      if (transfer) lines.push(`From my previous work, ${lowerFirst(transfer)}.`);
+      const trait = has(profile, 'working') ? firstSentence(profile.working) : (has(profile, 'collaboration') ? firstSentence(profile.collaboration) : '');
+      if (trait) lines.push(`Outside of that, ${lowerFirst(trait)}.`);
+      lines.push(`I'm looking forward to bringing that into ${profile.targetRole} and building on it.`);
+      return lines.join(' ');
+    }
+
+    const frameworkDefs = [
+      { key: 'star', name: 'STAR', bestFor: 'Teamwork, leadership and setbacks', field: 'collaboration', title: 'Teamwork & leadership story', focus: 'behavioral', rows: [
+          { letter: 'S', label: 'Situation', coach: 'Set the scene: role, context, and what was at stake. When and where did this happen?' },
+          { letter: 'T', label: 'Task', coach: 'Name the one responsibility or goal that was specifically theirs, not the whole team’s job.' },
+          { letter: 'A', label: 'Action', coach: 'The longest part. Draw out 2-3 concrete things they personally did, in first person.' },
+          { letter: 'R', label: 'Result', coach: 'Close with what changed, ideally something measurable, plus one lesson learned.' }
+      ]},
+      { key: 'oscar', name: 'OSCAR', bestFor: 'Projects and technical problem-solving', field: 'project', title: 'Project deep-dive', focus: 'project', rows: [
+          { letter: 'O', label: 'Outcome', coach: 'One plain-English sentence a non-technical interviewer would understand: what was this meant to achieve?' },
+          { letter: 'S', label: 'Situation', coach: 'Where and how was it built — tools, timeframe, solo or with a team?' },
+          { letter: 'C', label: 'Challenge', coach: 'The hardest true obstacle. Push back gently if the first answer sounds too easy.' },
+          { letter: 'A', label: 'Action', coach: 'Walk through the fix step by step: first attempt, what failed, what actually worked.' },
+          { letter: 'R', label: 'Result', coach: 'What works now, and what does it prove? Link it back to why it matters for the target role.' }
+      ]},
+      { key: 'prep', name: 'PREP', bestFor: 'Opinions, motivation and role fit', field: 'motivation', title: 'Career motivation & fit', focus: 'motivation', rows: [
+          { letter: 'P', label: 'Point', coach: 'State the answer in one clear sentence first: this role/path, and why, in a nutshell.' },
+          { letter: 'R', label: 'Reason', coach: 'Give the underlying reason: a realisation or value, not just "it pays better".' },
+          { letter: 'E', label: 'Example', coach: 'Back it up with one concrete piece of evidence: a project, a decision, an experience.' },
+          { letter: 'P', label: 'Point (restate)', coach: 'Return to the opening point, naming one thing they want to learn next in this role.' }
+      ]},
+      { key: 'sbi', name: 'SBI', bestFor: 'Reflection, feedback and growth', field: 'working', title: 'Growth & feedback story', focus: 'behavioral', rows: [
+          { letter: 'S', label: 'Situation', coach: 'Describe the specific moment: what was happening when the feedback or mistake occurred?' },
+          { letter: 'B', label: 'Behaviour', coach: 'Name the actual decision or behaviour, without excuses or blaming others.' },
+          { letter: 'I', label: 'Impact', coach: 'Explain the impact it had, and exactly what changed in how they work afterwards.' }
+      ]},
+      { key: 'pivot', name: 'PIVOT', bestFor: 'The career-change story, told with confidence', field: 'priorExperience', title: 'Career pivot story', focus: 'pivot', rows: [
+          { letter: 'P', label: 'Past', coach: 'What they did before: role, industry, how long — stated plainly, no apology.' },
+          { letter: 'I', label: 'Insight', coach: 'The realisation or moment that pointed them toward tech.' },
+          { letter: 'V', label: 'Value transfer', coach: 'One or two skills from the old career that carry over directly — name them explicitly.' },
+          { letter: 'O', label: 'Outcome so far', coach: 'What\'s been built or learned at 42 — concrete proof of commitment, not just enthusiasm.' },
+          { letter: 'T', label: 'Target', coach: 'Why this role, this company, now — and what they bring from day one.' }
+      ]}
+    ];
+
+    function buildFrameworkCards(profile) {
+      return frameworkDefs.filter(def => profile.focus.includes(def.focus)).map(def => ({ ...def, anchor: profile[def.field], hasAnchor: has(profile, def.field) }));
+    }
+
+    function renderAnswerLab(plan) {
+      const { profile } = plan;
+      const cards = buildFrameworkCards(profile);
+      latestCards = cards;
+      $('answerLabEmpty').classList.add('hidden');
+      $('answerLabContent').classList.remove('hidden');
+      const anchorLabel = labPov === 'interview' ? 'Say it like this in the room — source notes:' : `Turn ${escapeHtml(profile.name)}'s notes into written voice — source notes:`;
+      const pitchCard = `<div class="rounded-xl border border-[#f4c95d]/50 bg-[#fffaf0] p-5"><div class="flex items-start justify-between gap-3"><div><span class="inline-block rounded bg-[#ef6f51]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#ef6f51]">Elevator pitch</span><h4 class="display mt-1 text-lg font-bold">Memorise this, word for word</h4></div><i data-lucide="mic" class="h-5 w-5 shrink-0 text-[#ef6f51]"></i></div><p class="mt-2 text-xs leading-5 text-black/60">The answer to "tell me about yourself" — auto-drafted from ${escapeHtml(profile.name)}'s notes. Edit it until it sounds like them, then have them say it out loud until it's automatic.</p><textarea id="labPitchText" class="field mt-3 min-h-28 text-sm leading-6">${escapeHtml(plan.pitch)}</textarea><div class="mt-3 flex flex-wrap items-center justify-between gap-3"><span id="labPitchWordCount" class="text-[11px] font-semibold text-black/45"></span><div class="flex flex-wrap gap-2"><button id="labSuggestPitch" type="button" class="flex items-center gap-1 rounded-lg bg-[#1f7770] px-3 py-2 text-xs font-bold text-white hover:bg-[#175f59]"><i data-lucide="sparkles" class="h-3.5 w-3.5"></i><span>Suggest with AI</span></button><button id="labRegeneratePitch" type="button" class="rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5">Regenerate from notes</button><button id="labCopyPitch" type="button" class="rounded-lg bg-[#17201e] px-3 py-2 text-xs font-bold text-white hover:bg-black">Copy</button></div></div><p id="labPitchStatus" class="mt-1.5 min-h-[1em] text-[11px] font-semibold"></p></div>`;
+      const frameworkCards = cards.length ? cards.map(card => `<div class="rounded-xl border border-black/10 bg-white p-5">
+        <div class="flex items-start justify-between gap-3"><div><span class="inline-block rounded bg-[#1f7770]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#1f7770]">${card.name}</span><h4 class="display mt-1 text-lg font-bold">${escapeHtml(card.title)}</h4></div><span class="max-w-[42%] text-right text-[10px] font-semibold text-black/45">Best for: ${escapeHtml(card.bestFor)}</span></div>
+        <div class="mt-3 rounded-lg border border-dashed border-black/15 bg-[#faf9f5] p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-black/45">${anchorLabel}</p><p class="mt-1 text-sm italic leading-6 text-black/75">${card.hasAnchor ? '“' + escapeHtml(card.anchor.slice(0, 320)) + (card.anchor.length > 320 ? '…' : '') + '”' : `No notes yet — ask ${escapeHtml(profile.name)} to describe this before the session.`}</p></div>
+        <div class="mt-3 divide-y divide-black/5">${card.rows.map(row => `<div class="flex gap-3 py-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-[11px] font-bold">${row.letter}</span><div><p class="text-xs font-bold">${escapeHtml(row.label)}</p><p class="mt-0.5 text-xs leading-5 text-black/60">${escapeHtml(row.coach)}</p></div></div>`).join('')}</div>
+        <div class="mt-3 flex items-center justify-between gap-2"><label class="text-xs font-semibold text-black/50" for="practiceAnswer-${card.key}">Practice answer (write it once, then say it aloud)</label><button type="button" class="suggest-answer-btn shrink-0 flex items-center gap-1 rounded-lg border border-black/15 px-2 py-1 text-[11px] font-bold hover:bg-black/5" data-key="${card.key}"><i data-lucide="sparkles" class="h-3 w-3"></i><span>Suggest with AI</span></button></div>
+        <textarea id="practiceAnswer-${card.key}" class="field mt-1 min-h-16 text-sm"></textarea>
+        <p id="suggestStatus-${card.key}" class="mt-1.5 min-h-[1em] text-[11px] font-semibold"></p>
+      </div>`).join('') : `<p class="text-sm italic text-black/50">No frameworks selected — tick at least one focus area in the candidate brief.</p>`;
+      $('answerLabContent').innerHTML = pitchCard + frameworkCards;
+      lucide.createIcons();
+      const updateLabPitchWordCount = () => { const text = $('labPitchText').value.trim(); const words = text ? text.split(/\s+/).length : 0; $('labPitchWordCount').textContent = `${words} words · about ${Math.round(words / 2.2)}s spoken aloud`; };
+      $('labPitchText').addEventListener('input', updateLabPitchWordCount);
+      updateLabPitchWordCount();
+      $('labRegeneratePitch').addEventListener('click', () => { $('labPitchText').value = buildElevatorPitch(profile); updateLabPitchWordCount(); });
+      $('labSuggestPitch').addEventListener('click', () => suggestPitch('lab'));
+      $('labCopyPitch').addEventListener('click', async () => { const button = $('labCopyPitch'); try { await navigator.clipboard.writeText($('labPitchText').value); const original = button.textContent; button.textContent = 'Copied!'; setTimeout(() => { button.textContent = original; }, 1500); } catch (error) { $('labPitchText').select(); } });
+    }
+
+    function buildPlan(profile) {
+      const questions = [];
+      if (profile.focus.includes('motivation')) questions.push({tag:'FIT', q:`Why ${profile.targetRole}, and why now?`, drill:'Answer in 60 seconds: attraction, evidence, next step.', lesson:'Connect the role to one real observation or decision. Avoid only saying "I like coding."', answer:'Start with what specifically drew you in, connect it to a project or moment of realisation, then explain why this role is the right next step given where you are now.'});
+      if (profile.focus.includes('pivot')) questions.push({tag:'PIVOT', q:'Why are you leaving your previous career for tech?', drill:'Use PIVOT: Past, Insight, Value transfer, Outcome, Target.', lesson:'Own the decision confidently — this is not something to apologise for.', answer:'Name the old role plainly, the moment that changed your thinking, and land on why tech is a deliberate choice, not an escape.'});
+      if (profile.focus.includes('pivot')) questions.push({tag:'PIVOT', q:'Isn\'t this a step down or a pay cut for you?', drill:'Acknowledge briefly, then pivot straight to the "why".', lesson:'Confidence, not defensiveness, is what reassures an interviewer here.', answer:'Own it in one sentence, then reframe it as a deliberate long-term investment in a field you intend to build a real career in — not a retreat.'});
+      if (profile.focus.includes('pivot')) questions.push({tag:'PIVOT', q:'Why should we hire you over a fresh computer science graduate?', drill:'Name one soft skill your old career gave you that a fresh grad hasn\'t had time to build, then back it with a concrete example.', lesson:'Reframe experience as an asset, not a liability.', answer:'Point to something a first job can\'t teach quickly — stakeholder handling, ownership under pressure, communicating with non-technical people — and pair it with one 42 project as proof the technical side is real too.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'Walk us through your favourite project as if we have never seen it.', drill:'Use Goal → How it works → One decision → Result.', lesson:'Make the explanation understandable before adding technical vocabulary.', answer:'A strong structure is: goal, simple user journey, one technical decision, one obstacle, and the result — in plain English before any jargon.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'What was the hardest problem in this project, and what did you try first?', drill:'Give the failed attempt as well as the final fix.', lesson:'Interviewers are listening for process, persistence, and what changed after getting stuck.', answer:'Name the bug or blocker, explain the test or checkpoint used to isolate it, and finish with what the debugging process taught you.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'What tools or technologies did you use, and why did those make sense for this project?', drill:'Name each tool in one breath, then explain why you picked it — not just what it\'s called.', lesson:'Justifying a choice, not just listing tools, is what makes this sound like real understanding.', answer:'Pick the one or two tools that mattered most, explain in plain language what job they did, and give one honest reason for choosing them over an alternative.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'How did you check that your project actually worked the way you wanted?', drill:'Describe one specific moment you tested it and confirmed it worked.', lesson:'This shows you check your own work instead of just hoping it runs.', answer:'Describe a specific test: what you tried, what you expected to see, and how you confirmed it actually worked as intended.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'If you had another week to work on this project, what would you add or fix?', drill:'Name one realistic improvement, not a wish list.', lesson:'This shows self-awareness and honesty — nobody expects a finished project to be perfect.', answer:'Pick one genuine gap or rough edge, explain what you would do about it, and why it would make the project better.'});
+      if (profile.focus.includes('project') && has(profile,'project')) questions.push({tag:'PROJECT', q:'How does 42\'s peer evaluation process work, and how did evaluations go for this project?', drill:'Name the process in one sentence, then give one honest result — good or rough — and what you did with the feedback.', lesson:'This is a genuinely distinctive part of the 42 model; interviewers who don\'t know it well are curious, and it doubles as a growth story if an evaluation went badly.', answer:'Briefly explain that projects are graded through peer evaluation against a defense and spec, then give one real result and one thing that changed afterward because of the feedback.'});
+      if (profile.focus.includes('project')) profile.projects.filter(item => item.name && item.name !== 'Untitled project').forEach(item => { questions.push({tag:'PROJECT', q:`Tell us briefly about "${item.name}" — what was it, and what did you learn?`, drill:'Keep it under 90 seconds: what it was, one technical highlight, one thing learned.', lesson:'Shows range beyond a single flagship project — exactly what a panel wants after skimming a resume with several 42 project names on it.', answer:'A tight answer names the goal, one technical decision worth mentioning, and one concrete takeaway — resist retelling the whole build.'}); });
+      if (profile.focus.includes('technical') && has(profile,'journey')) questions.push({tag:'TECH', q:'What is one technical idea from your 42 projects that you can explain simply?', drill:'Explain it once to a non-technical interviewer, then once to a technical one.', lesson:'A strong answer shows ownership. Name what you personally built, tested, or debugged.', answer:'Use the plain-English explanation first, then layer in technical vocabulary only once the concept is clear.'});
+      if (profile.focus.includes('behavioral') && has(profile,'collaboration')) questions.push({tag:'STORY', q:'Tell us about a time you had to work with or lead other people.', drill:'Speak in STAR: Situation, Task, Action, Result.', lesson:'Spend most of the answer on your action, then state what you learned.', answer:'Explain the responsibility, the decision made under pressure, the people affected, and how that habit helps with structured team projects now.'});
+      if (profile.focus.includes('behavioral')) questions.push({tag:'STORY', q:'Tell us about a mistake, setback, or piece of feedback that improved you.', drill:'Record two takes. In the second, make the learning concrete.', lesson:'Do not hide the difficulty. Show reflection and a changed behaviour.', answer:'Name a real setback without over-dramatising it, show the exact action taken to recover, and end with a habit that changed afterwards.'});
+      questions.push({tag:'FOLLOW-UP', q:'What would you like to learn or contribute in your first six months in this role?', drill:'Name one skill, one project type, and one way you will practise.', lesson:'End with a specific, believable next step rather than a broad ambition.', answer:'Finish with a role-relevant next step: a skill to learn, a type of project to take on, and how you will ask for feedback early.'});
+      const weakAreas = [];
+      if (!has(profile,'motivation')) weakAreas.push('career motivation');
+      if (!has(profile,'priorExperience')) weakAreas.push('a career-change story');
+      if (!has(profile,'project')) weakAreas.push('a project story');
+      if (!has(profile,'collaboration')) weakAreas.push('a teamwork or leadership story');
+      if (!has(profile,'working')) weakAreas.push('reflection and growth');
+      return { profile, questions, weakAreas, pitch: buildElevatorPitch(profile) };
+    }
+
+    const tagForWeak = { 'career motivation': 'FIT', 'a career-change story': 'PIVOT', 'a project story': 'PROJECT', 'a teamwork or leadership story': 'STORY', 'reflection and growth': 'STORY' };
+
+    function renderPlan(plan) {
+      const { profile, questions, weakAreas } = plan;
+      const focusTags = [...new Set(weakAreas.map(area => tagForWeak[area]).filter(Boolean))];
+      const focusQuestions = questions.filter(item => focusTags.includes(item.tag));
+      const round2 = (focusQuestions.length ? focusQuestions : questions.slice(-2)).slice(0, 3);
+      $('empty').classList.add('hidden'); $('result').classList.remove('hidden');
+      $('result').innerHTML = `<div class="fade-in rounded-xl bg-[#17201e] p-6 text-white shadow-[4px_4px_0_#f4c95d]"><div class="flex items-start justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-widest text-[#f4c95d]">Personalised plan</p><h3 class="display mt-2 text-3xl font-bold">${escapeHtml(profile.name)}</h3><p class="mt-1 text-sm text-white/65">${escapeHtml(profile.targetRole)}${profile.background ? ` · ${escapeHtml(profile.background)}` : ''}</p></div><i data-lucide="target" class="h-7 w-7 text-[#ef6f51]"></i></div><div class="mt-6 grid grid-cols-3 gap-2 text-center"><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">${questions.length}</strong><span class="text-[11px] text-white/60">questions</span></div><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">3</strong><span class="text-[11px] text-white/60">practice rounds</span></div><div class="rounded-lg bg-white/10 p-3"><strong class="block text-2xl text-[#f4c95d]">${weakAreas.length}</strong><span class="text-[11px] text-white/60">gaps to fill</span></div></div></div>
+      <div class="fade-in rounded-xl border border-[#f4c95d]/50 bg-[#fffaf0] p-5 sm:p-6"><div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Elevator pitch</p><h3 class="display mt-1 text-xl font-bold">Memorise this, word for word</h3></div><i data-lucide="mic" class="h-6 w-6 shrink-0 text-[#ef6f51]"></i></div><p class="mt-2 text-xs leading-5 text-black/60">Auto-drafted from ${escapeHtml(profile.name)}'s notes. Edit it until it sounds like them, then have them memorise it — this is the answer to "tell me about yourself" and the opening of almost every interview.</p><textarea id="pitchText" class="field mt-3 min-h-32 text-sm leading-6">${escapeHtml(plan.pitch)}</textarea><div class="mt-3 flex flex-wrap items-center justify-between gap-3"><span id="pitchWordCount" class="text-[11px] font-semibold text-black/45"></span><div class="flex flex-wrap gap-2"><button id="suggestPitchBtn" type="button" class="flex items-center gap-1 rounded-lg bg-[#1f7770] px-3 py-2 text-xs font-bold text-white hover:bg-[#175f59]"><i data-lucide="sparkles" class="h-3.5 w-3.5"></i><span>Suggest with AI</span></button><button id="regeneratePitch" type="button" class="rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5">Regenerate from notes</button><button id="copyPitch" type="button" class="rounded-lg bg-[#17201e] px-3 py-2 text-xs font-bold text-white hover:bg-black">Copy</button></div></div><p id="pitchStatus" class="mt-1.5 min-h-[1em] text-[11px] font-semibold"></p></div>
+      ${weakAreas.length ? `<div class="fade-in rounded-xl border border-[#ef6f51]/35 bg-[#fff2ed] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#ef6f51]">Coaching note</p><p class="mt-2 text-sm leading-6">Before rehearsal, collect a concrete example for <strong>${escapeHtml(weakAreas.join(', '))}</strong>. The plan can still run, but those answers will be thinner.</p></div>` : ''}
+      <div class="fade-in rounded-xl border border-black/10 bg-white p-5"><div class="flex items-center justify-between"><div><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">Question deck</p><h3 class="display mt-1 text-xl font-bold">Say it, then sharpen it</h3></div><button id="export" class="flex items-center gap-2 rounded-lg border border-black/15 px-3 py-2 text-xs font-bold hover:bg-black/5"><i data-lucide="download" class="h-4 w-4"></i> Save candidate file</button></div><div class="mt-4 space-y-3">${questions.map((item,index) => `<article class="question rounded-r-lg bg-[#faf9f5] p-4"><div class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#f4c95d] text-xs font-bold">${index+1}</span><div><span class="text-[10px] font-bold uppercase tracking-widest text-[#ef6f51]">${item.tag}</span><h4 class="mt-1 font-bold leading-6">${escapeHtml(item.q)}</h4><p class="mt-2 text-xs leading-5 text-black/60"><strong>Drill:</strong> ${escapeHtml(item.drill)} <strong class="ml-1">Lesson:</strong> ${escapeHtml(item.lesson)}</p><details class="mt-3 text-xs"><summary class="cursor-pointer font-bold text-[#1f7770]">View answer guide</summary><p class="mt-2 leading-5 text-black/65">${escapeHtml(item.answer)}</p></details></div></div></article>`).join('')}</div></div>
+      <div class="fade-in rounded-xl border border-black/10 bg-[#17201e] p-5 text-white"><p class="text-xs font-bold uppercase tracking-widest text-[#f4c95d]">Personalised runsheet for ${escapeHtml(profile.name)}</p><h3 class="display mt-1 text-xl font-bold">Today's rehearsal, step by step</h3><ol class="mt-4 space-y-3 text-sm leading-6"><li><strong>1 · Warm-up (5 min):</strong> Time the elevator pitch cold, no notes. <span class="text-white/60">Watch for: fluency without reading.</span></li><li><strong>2 · Round 1 — untimed (~${questions.length * 2} min):</strong> Ask all ${questions.length} questions in the deck below, in order, using the Answer Lab worksheets in Tab 2 as reference only.</li><li><strong>3 · Round 2 — focused redo (10 min):</strong> Re-ask: ${round2.map(item => `"${escapeHtml(item.q)}"`).join('; ')}.${weakAreas.length ? ` Flagged because notes on <strong>${escapeHtml(weakAreas.join(', '))}</strong> are still thin — push for one new concrete detail on each.` : ''}</li><li><strong>4 · Round 3 — panel simulation (10 min):</strong> Random order, unscripted follow-ups, strict 60-second limit, no reading.</li><li><strong>5 · Wrap-up (5 min):</strong> Name one strength and one fix; flag the thin area(s) as homework before the next practice session.</li></ol></div>`;
+      lucide.createIcons();
+      $('export').addEventListener('click', () => exportStudentHtml(plan));
+      const updatePitchWordCount = () => { const text = $('pitchText').value.trim(); const words = text ? text.split(/\s+/).length : 0; $('pitchWordCount').textContent = `${words} words · about ${Math.round(words / 2.2)}s spoken aloud`; };
+      $('pitchText').addEventListener('input', updatePitchWordCount);
+      updatePitchWordCount();
+      $('regeneratePitch').addEventListener('click', () => { $('pitchText').value = buildElevatorPitch(profile); updatePitchWordCount(); });
+      $('suggestPitchBtn').addEventListener('click', () => suggestPitch('result'));
+      $('copyPitch').addEventListener('click', async () => { const button = $('copyPitch'); try { await navigator.clipboard.writeText($('pitchText').value); const original = button.textContent; button.textContent = 'Copied!'; setTimeout(() => { button.textContent = original; }, 1500); } catch (error) { $('pitchText').select(); } });
+    }
+
+    function exportStudentHtml(plan) {
+      const { profile, questions } = plan;
+      const pitch = $('pitchText') ? $('pitchText').value.trim() : plan.pitch;
+      const cards = questions.map((item,index) => `<article><small>${index+1} · ${escapeHtml(item.tag)}</small><h2>${escapeHtml(item.q)}</h2><p><b>Practice drill:</b> ${escapeHtml(item.drill)}</p><p><b>Remember:</b> ${escapeHtml(item.lesson)}</p></article>`).join('');
+      const draftJson = JSON.stringify(serializeDraft()).replace(/</g, '\\u003c');
+      const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeHtml(profile.name)} - Career Interview Practice</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#17201e;line-height:1.6}header{background:#17201e;color:white;padding:28px;border-radius:12px}h1{margin:0}article{border-left:4px solid #ef6f51;background:#faf9f5;margin:18px 0;padding:18px;border-radius:0 8px 8px 0}small{color:#ef6f51;font-weight:bold;letter-spacing:.12em}h2{font-size:19px;margin:6px 0 12px}p{font-size:14px}.pitch{background:#fffaf0;border:1px solid #f4c95d;border-radius:8px;padding:18px;font-style:italic}.note{color:#6b7a76;font-size:12px}</style></head><body><header><small>CAREER INTERVIEW PRACTICE</small><h1>${escapeHtml(profile.name)}</h1><p>${escapeHtml(profile.targetRole)}${profile.background ? ` · ${escapeHtml(profile.background)}` : ''}</p></header><h2>Elevator pitch — memorise this</h2><p class="pitch">${escapeHtml(pitch)}</p><h2>How to use this</h2><p>Say each answer out loud. Keep the story honest, specific, and easy to follow. Practise the drills after each question.</p>${cards}<p class="note">This file also carries this candidate's saved data. In Career Interview Studio, use "Load candidate file" and pick this file to keep coaching where you left off.</p><p>Prepared with Career Interview Studio · 42 Singapore</p><script type="application/json" id="career-draft">${draftJson}<\/script></body></html>`;
+      const blob = new Blob([html], {type:'text/html'}); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${profile.name.replace(/[^a-z0-9]+/gi,'-').toLowerCase() || 'candidate'}-career-interview-practice.html`; link.click(); URL.revokeObjectURL(link.href);
+    }
+
+    function getAIConfig() {
+      const enteredKey = $('apiKey').value.trim();
+      if (enteredKey) { localStorage.setItem('careerStudioApiKey', enteredKey); $('apiKey').value = ''; $('keyStatus').classList.remove('hidden'); }
+      return { key: enteredKey || savedKey(), model: $('modelCustom').value.trim() || $('model').value, endpoint: $('apiEndpoint').value.trim() };
+    }
+
+    async function callAI(systemPrompt, userPrompt) {
+      const { key, model, endpoint } = getAIConfig();
+      if (!key && $('provider').value !== 'ollama') throw new Error('Add an API key first, or use the local generator.');
+      const response = await fetch(endpoint, {method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`}, body:JSON.stringify({model,temperature:.4,messages:[{role:'system',content:systemPrompt},{role:'user',content:userPrompt}]})});
+      if (!response.ok) throw new Error(`Request failed (${response.status})`);
+      const data = await response.json();
+      return (data.choices?.[0]?.message?.content || '').trim();
+    }
+
+    function buildPitchPrompt(profile) {
+      const facts = [
+        profile.motivation && `Why this career change: ${profile.motivation}`,
+        profile.journey && `42 journey & technical experience: ${profile.journey}`,
+        profile.collaboration && `Peer collaboration & leadership: ${profile.collaboration}`,
+        profile.achievements && `Achievements: ${profile.achievements}`,
+        profile.priorExperience && `Prior work experience & transferable skills: ${profile.priorExperience}`,
+        profile.project && `Project(s): ${profile.project}`,
+        profile.working && `Working style / growth edge: ${profile.working}`,
+        profile.other && `Other: ${profile.other}`
+      ].filter(Boolean).join('\n');
+      return `Draft a 60-second spoken "tell me about yourself" elevator pitch for a tech job or internship interview in Singapore, for a career changer trained at 42 Singapore.\nWrite it the way a confident adult professional would say it out loud: first person, natural spoken sentences, clear and professional — no jargon for jargon's sake, no bullet points or headings.\nLength: about 120-140 words (roughly 60 seconds spoken aloud).\nLoose structure: who they are and their prior background, stated plainly → one genuine reason for the move into tech → one concrete highlight (a project or achievement) → one transferable skill from their old career → a short forward-looking closing line about the target role.\nUse only the facts below — never invent employers, achievements, numbers or events that are not stated. If a fact needed for the structure is missing, keep that part general instead of making something up.\n\nCandidate: ${profile.name}${profile.background ? `, previously ${profile.background}` : ''}. Target role: ${profile.targetRole}.\nNotes in the candidate's own words:\n"""\n${facts || 'No notes provided yet.'}\n"""`;
+    }
+
+    async function suggestPitch(scope) {
+      if (!latestPlan) return;
+      const textarea = document.getElementById(scope === 'lab' ? 'labPitchText' : 'pitchText');
+      const button = document.getElementById(scope === 'lab' ? 'labSuggestPitch' : 'suggestPitchBtn');
+      const status = document.getElementById(scope === 'lab' ? 'labPitchStatus' : 'pitchStatus');
+      if (!textarea) return;
+      if (button) { button.disabled = true; button.querySelector('span').textContent = 'Thinking…'; }
+      if (status) status.textContent = '';
+      try {
+        const settings = getSettings();
+        const text = await callAI(settings.system, buildPitchPrompt(latestPlan.profile));
+        textarea.value = text || buildElevatorPitch(latestPlan.profile);
+        textarea.dispatchEvent(new Event('input'));
+        if (status) { status.textContent = 'AI draft added — edit it until it sounds like them.'; status.className = 'mt-1.5 min-h-[1em] text-[11px] font-semibold text-[#1f7770]'; }
+      } catch (error) {
+        if (status) { status.textContent = error.message; status.className = 'mt-1.5 min-h-[1em] text-[11px] font-semibold text-[#ef6f51]'; }
+      } finally {
+        if (button) { button.disabled = false; button.querySelector('span').textContent = 'Suggest with AI'; }
+      }
+    }
+
+    function buildAnswerPrompt(card, profile) {
+      const voice = labPov === 'interview' ? 'as something the candidate would say out loud in an interview: first person, spoken register, natural sentences, no bullet points or headings' : 'as written prose for a resume summary or LinkedIn-style pitch: first person, written register, complete sentences, no bullet points or headings';
+      const shape = card.rows.map(row => `${row.label} (${row.letter})`).join(' → ');
+      return `Draft a model answer for this candidate using the ${card.name} framework: ${shape}.\nWrite it ${voice}. Length: 120-180 words. Use only the facts given below — never invent employers, achievements, numbers or events that are not stated. If a detail the framework needs is missing from the notes, write "[ask ${escapeHtml(profile.name)}: ...]" inline instead of making something up.\n\nCandidate: ${profile.name}, targeting ${profile.targetRole}.\nSource notes for this story, in the candidate's own words:\n"""\n${card.anchor || 'No notes provided yet for this story.'}\n"""`;
+    }
+
+    async function suggestAnswerForCard(key) {
+      const card = latestCards.find(item => item.key === key);
+      if (!card || !latestPlan) return;
+      const button = document.querySelector(`.suggest-answer-btn[data-key="${key}"]`);
+      const status = document.getElementById(`suggestStatus-${key}`);
+      const textarea = document.getElementById(`practiceAnswer-${key}`);
+      if (button) { button.disabled = true; button.querySelector('span').textContent = 'Thinking…'; }
+      if (status) { status.textContent = ''; }
+      try {
+        const settings = getSettings();
+        const text = await callAI(settings.system, buildAnswerPrompt(card, latestPlan.profile));
+        if (textarea) textarea.value = text || '(No answer returned — try again.)';
+        if (status) { status.textContent = 'AI draft added — edit it until it sounds like them, then say it aloud.'; status.className = 'mt-1.5 min-h-[1em] text-[11px] font-semibold text-[#1f7770]'; }
+      } catch (error) {
+        if (status) { status.textContent = error.message; status.className = 'mt-1.5 min-h-[1em] text-[11px] font-semibold text-[#ef6f51]'; }
+      } finally {
+        if (button) { button.disabled = false; button.querySelector('span').textContent = 'Suggest with AI'; }
+      }
+    }
+
+    $('answerLabContent').addEventListener('click', event => { const button = event.target.closest('.suggest-answer-btn'); if (button) suggestAnswerForCard(button.dataset.key); });
+    $('suggestAllAnswers').addEventListener('click', async () => {
+      const status = $('suggestAllStatus');
+      if (!latestPlan || !latestCards.length) { status.textContent = 'Generate a plan first.'; status.className = 'text-[11px] font-semibold text-[#ef6f51]'; return; }
+      for (let index = 0; index < latestCards.length; index += 1) {
+        status.textContent = `Drafting ${index + 1} of ${latestCards.length}…`; status.className = 'text-[11px] font-semibold text-[#1f7770]';
+        await suggestAnswerForCard(latestCards[index].key);
+      }
+      status.textContent = 'All drafts added — edit each one before rehearsing.'; status.className = 'text-[11px] font-semibold text-[#1f7770]';
+    });
+
+    $('settingsButton').addEventListener('click', () => $('settingsPanel').classList.remove('hidden'));
+    $('closeSettings').addEventListener('click', () => $('settingsPanel').classList.add('hidden'));
+    $('settingsPanel').addEventListener('click', event => { if (event.target === $('settingsPanel')) $('settingsPanel').classList.add('hidden'); });
+    $('saveSettings').addEventListener('click', () => { localStorage.setItem('careerStudioSettings', JSON.stringify({system: $('systemPrompt').value.trim() || defaultSettings.system, coaching: $('coachingPrompt').value.trim() || defaultSettings.coaching})); $('settingsPanel').classList.add('hidden'); });
+    $('resetSettings').addEventListener('click', () => { $('systemPrompt').value = defaultSettings.system; $('coachingPrompt').value = defaultSettings.coaching; });
+    $('labPovToggle').addEventListener('click', () => { labPov = labPov === 'interview' ? 'portfolio' : 'interview'; $('labPovToggle').querySelector('span').textContent = labPov === 'interview' ? 'Voice: Interview' : 'Voice: Written'; if (latestPlan) renderAnswerLab(latestPlan); });
+    $('generate').addEventListener('click', () => { latestPlan = buildPlan(getProfile()); renderPlan(latestPlan); renderAnswerLab(latestPlan); showTab('practice'); });
+    $('aiGenerate').addEventListener('click', async () => {
+      const profile = getProfile(); const status = $('aiStatus'); status.classList.remove('hidden'); status.textContent = 'Generating coaching notes...'; status.className = 'mt-3 text-xs font-semibold text-[#1f7770]';
+      try {
+        const settings = getSettings();
+        const notes = await callAI(settings.system, `${settings.coaching}\n\nCandidate profile:\n${JSON.stringify(profile)}`);
+        const model = $('modelCustom').value.trim() || $('model').value;
+        latestPlan = buildPlan(profile); renderPlan(latestPlan); renderAnswerLab(latestPlan);
+        $('result').insertAdjacentHTML('afterbegin', `<div class="fade-in rounded-xl border border-[#1f7770]/30 bg-[#e8f4ef] p-5"><p class="text-xs font-bold uppercase tracking-widest text-[#1f7770]">AI coaching notes · ${escapeHtml(model)}</p><p class="mt-3 whitespace-pre-line text-sm leading-6">${escapeHtml(notes || 'No coaching notes returned.')}</p></div>`);
+        showTab('practice'); status.textContent = 'AI notes added to the local plan. Head to Tab 2 to draft AI answers for each story.';
+      } catch (error) { status.textContent = `${error.message}. The local generator is still available.`; status.className = 'mt-3 text-xs font-semibold text-[#ef6f51]'; }
+    });
+
+    $('newStudent').addEventListener('click', () => {
+      if (!confirm('Clear this saved draft and start a new candidate? Save a candidate file first if you want to keep it.')) return;
+      localStorage.removeItem(DRAFT_KEY);
+      ['name','background','targetRole','date','age','pronouns','motivation','journey','collaboration','achievements','priorExperience','project','working','other'].forEach(id => { $(id).value = ''; });
+      projects.length = 0; renderProjects();
+      document.querySelectorAll('input[name="focus"]').forEach(input => { input.checked = input.value === 'motivation' || input.value === 'project' || input.value === 'behavioral' || input.value === 'pivot'; });
+      latestPlan = null; latestCards = [];
+      $('answerLabContent').classList.add('hidden'); $('answerLabEmpty').classList.remove('hidden');
+      $('result').classList.add('hidden'); $('result').innerHTML = ''; $('empty').classList.remove('hidden');
+      $('autosaveStatus').classList.add('hidden');
+      showTab('profile');
+    });
+    $('loadStudentFile').addEventListener('click', () => $('loadFileInput').click());
+    $('loadFileInput').addEventListener('change', async event => {
+      const file = event.target.files[0]; event.target.value = '';
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const match = text.match(/<script type="application\/json" id="career-draft">([\s\S]*?)<\/script>/);
+        if (!match) throw new Error('No saved data found in this file.');
+        applyDraft(JSON.parse(match[1]));
+        scheduleAutosave();
+        showTab('profile');
+      } catch (error) { alert(`Could not load this file: ${error.message}`); }
+    });
+
+    try { const raw = localStorage.getItem(DRAFT_KEY); if (raw) applyDraft(JSON.parse(raw)); } catch (error) { /* ignore corrupt or missing draft */ }
+  </script>
+</body>
+</html>
